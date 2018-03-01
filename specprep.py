@@ -7,9 +7,9 @@ import csv
 import pandas as pd
 
 
-class specprep:
+class SpecPrep:
 
-    def __init__(self,filename, path='.', outdir='.', gen_ew_file=True):
+    def __init__(self, filename, path='.', outdir='.', gen_ew_file=True):
         self.filename = filename
         self.path = path
         self.outdir = outdir
@@ -20,9 +20,10 @@ class specprep:
         self.spec_lpx(self.filename, path=self.outdir, outdir=self.outdir)
         self.linelist_from_csv(self.filename, outdir=self.outdir, gen_ew_file=self.gen_ew_file)
 
-    def onedspec_fits(self,filename, path='.', outdir='.'):
+    @staticmethod
+    def onedspec_fits(filename, path='.', outdir='.'):
         """Calculate wavelength solutions for 1-d Spectra"""
-        with fits.open(os.path.join(path,filename)) as hdulist:
+        with fits.open(os.path.join(path, filename)) as hdulist:
             # Grab relevant header values
             cdelt1 = hdulist[0].header["CDELT1"]
             cd1_1 = hdulist[0].header["CD1_1"]
@@ -39,32 +40,36 @@ class specprep:
                 print("Error: No delta lambda found.")
                 return
 
-            # Create index array for data (idx+1 for python -> iraf indexing)
+            # Create index array for data (idx+1 for python -> IRAF indexing)
             pix = np.array([idx+1 for idx, val in enumerate(hdulist[0].data)])
             if dc_flag == 0:       # Linear sampling
                 wave = crval1+cd1*(pix-crpix1)
             elif dc_flag == 1:     # Log-Linear sampling
                 wave = 10.0**(crval1+cd1*(pix-crpix1))
+            else:
+                print("DC-Flag is non-binary")
+                return
 
             # Write data to new fits file
             fluxcol = fits.Column(name='FLUX', format='E', array=hdulist[0].data)
             wavelcol = fits.Column(name='WAVEL', format='E', array=wave)
-            wav_hdu = fits.BinTableHDU.from_columns([fluxcol,wavelcol], name = "WAV")
+            wav_hdu = fits.BinTableHDU.from_columns([fluxcol, wavelcol], name="WAV")
             hdulist.append(wav_hdu)
-            hdulist.writeto(os.path.join(outdir,filename.split('.')[0]+"_wavsoln.fits"),
-                           overwrite = True)
+            hdulist.writeto(os.path.join(outdir, filename.split('.')[0]+"_wavsoln.fits"),
+                            overwrite=True)
 
-    def spec_lpx(self, filename, path='.', outdir='.'):
+    @staticmethod
+    def spec_lpx(filename, path='.', outdir='.'):
         """Generate a spectrum text file for use with TAME"""
         with fits.open(os.path.join(path, filename.split('.')[0]+"_wavsoln.fits")) as hdulist:
             wavelength = hdulist['WAV'].data['WAVEL']
             flux = hdulist['WAV'].data['FLUX']
 
             with open(os.path.join(outdir, filename.split('.')[0]+'.lpx'), 'w') as f:
-                writer = csv.writer(f, delimiter = ' ')
-                writer.writerows(zip(wavelength,flux))
+                writer = csv.writer(f, delimiter=' ')
+                writer.writerows(zip(wavelength, flux))
 
-    def linelist_from_csv(self, filename, outdir='.',gen_ew_file=True):
+    def linelist_from_csv(self, filename, outdir='.', gen_ew_file=True):
         """Generate a linelist for a file from the cluster csv list"""
         df_corr = pd.read_csv(self.cluster_list_corr)
         df_orig = pd.read_csv(self.cluster_list_orig, skiprows=1)
