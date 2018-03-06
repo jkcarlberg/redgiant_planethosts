@@ -10,19 +10,22 @@ import pidly
 
 if __name__ == "__main__":
 
-    # Read in Parameter File
-    df = pd.read_csv('tame.par', delim_whitespace=True, header=None)
-    print(df.columns)
+    lowercut_space = np.linspace(0.95, 0.995, 10)
+    for lowercut in lowercut_space:
 
-    # Modify Parameter File (Lowercut)
-    df.at[df.index[df[0] == "LOWERCUT"].tolist()[0], 1] = 0.97
+        # Read in Parameter File
+        df = pd.read_csv('tame.par', delim_whitespace=True, header=None)
+        print(df.columns)
 
-    # Write new Parameter File
-    df.to_csv("tame.par", header=None, index=False, sep="\t")
+        # Modify Parameter File (Lowercut)
+        df.at[df.index[df[0] == "LOWERCUT"].tolist()[0], 1] = lowercut
 
-    # Run TAME
-    idl = pidly.IDL('/Applications/exelis/idl/bin/idl')
-    idl('tame_silent')
+        # Write new Parameter File
+        df.to_csv("tame.par", header=None, index=False, sep="\t")
+
+        # Run TAME
+        idl = pidly.IDL('/Applications/exelis/idl/bin/idl')
+        idl('tame_silent')
 
     # Read Output File
 
