@@ -9,7 +9,7 @@ import json
 
 if __name__ == "__main__":
 
-    spectra = glob.glob("ngc2204*wavsoln.fits")
+    spectra = glob.glob("ngc2506*wavsoln.fits")
     lowercut_space = np.linspace(0.95, 0.995, 10)
     idl = pidly.IDL('/Applications/exelis/idl/bin/idl')
 
@@ -45,7 +45,6 @@ if __name__ == "__main__":
                     line_dict[line] = [(lowercut, ew)]
                 else:
                     line_dict[line].append((lowercut, ew))
-
 
         print(line_dict)
         with open('{}.json'.format(spec_label), 'w') as fp:
