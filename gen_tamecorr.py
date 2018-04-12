@@ -80,10 +80,8 @@ for line in line_list[:]:
     # print(len(pdiff_all))
 
     avg_pdiffs = [np.median(pdiff_sclip[lowcuts.index(lc_val)]) for lc_val in lowcuts]
-    #std_pdiffs = [np.median(abs(pdiff_sclip[lowcuts.index(lc_val)])) for lc_val in
-    #lowcuts]  # median of abs value of the diff
-    std_pdiffs = [iqr(pdiff_sclip[lowcuts.index(lc_val)]) for lc_val in lowcuts] # interquartile range
-    # std_pdiffs = [np.std(pdiff_sclip[lowcuts.index(lc_val)]) for lc_val in lowcuts]  # standard deviation
+    std_pdiffs = [np.median(abs(pdiff_sclip[lowcuts.index(lc_val)])) for lc_val in
+    lowcuts]  # median of abs value of the diff
 
     best_lowcut = lowcuts[np.argmin(std_pdiffs)]  # Best lowcut is solution with smallest spread (not solution that has the closest percent difference)
     pdiff_offset = avg_pdiffs[np.argmin(std_pdiffs)]  # The mean percent difference associated with the chosen lowcut value is the offset value
@@ -91,7 +89,7 @@ for line in line_list[:]:
     line_dict[line] = (best_lowcut, np.min(std_pdiffs), pdiff_offset, np.mean(hand_all))
 
     if write_out:
-        csvwriter.writerow([line, best_lowcut, np.min(std_pdiffs), pdiff_offset])
+        csvwriter.writerow([line, best_lowcut, np.min(std_pdiffs) * 1.5, pdiff_offset])
 
 
 if write_out:
