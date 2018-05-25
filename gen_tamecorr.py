@@ -14,8 +14,8 @@ plt.style.use('seaborn-white')
 mpl.rcParams.update({'font.size': 16})
 
 # Select Datasets and extract equivalent widths
-outputs = glob.glob("tame-1.1.0/*sm1.json")
-by_hand = glob.glob("tame-1.1.0/*.ew")
+outputs = glob.glob("data/tame_outputs/*.json")
+by_hand = glob.glob("data/tame_inputs/*.ew")
 lc_range = np.arange(0.95, 0.995, 0.0001)
 len_range = 10
 
@@ -29,14 +29,14 @@ write_out = True
 with open(outputs[0]) as jsonfile:
     jsondata = json.load(jsonfile)
     key = list(jsondata.keys())[2]
-    lowcuts = [cut for cut, ew in jsondata[key]]
+    lowcuts = [cut for cut, ew, center in jsondata[key]]
     line_list = list(jsondata.keys())
     line_list = np.array(sorted(np.array(line_list).astype(float))).astype(str)
 
 if write_out:
-    csvfile = open("tame_linecorr.csv", "w")
+    csvfile = open("tame_linecorr_v2.csv", "w")
     csvwriter = csv.writer(csvfile, delimiter=' ', quoting=csv.QUOTE_MINIMAL)
-    csvwriter.writerow(["Line", "Lowercut", "Uncertainty", "Offset"])
+    csvwriter.writerow(["Line", "Lowercut", "Uncertainty", "Offset", "Calibration Values"])
 solns_dev = []
 closest_dev = []
 closest_pdiffs = []
@@ -53,8 +53,8 @@ for line in line_list[:]:
             handdata = pd.read_csv(ewfile, delim_whitespace=True, header=None)[[0, 4]]
             hand_dict = dict(zip([str(i) for i in handdata[0].tolist()], handdata[4].tolist()))
             key = line
-            lowercut = [cut for cut, ew in jsondata[key]]
-            ew_meas = [ew for cut, ew in jsondata[key]]
+            lowercut = [cut for cut, ew, center in jsondata[key]]
+            ew_meas = [ew for cut, ew, center in jsondata[key]]
             # print(outputs[i])
             # print(ew_meas)
             # print(hand_dict[key])
@@ -80,16 +80,17 @@ for line in line_list[:]:
     # print(len(pdiff_all))
 
     avg_pdiffs = [np.median(pdiff_sclip[lowcuts.index(lc_val)]) for lc_val in lowcuts]
-    std_pdiffs = [np.median(abs(pdiff_sclip[lowcuts.index(lc_val)])) for lc_val in
-    lowcuts]  # median of abs value of the diff
+    std_pdiffs = [np.median(abs(pdiff_sclip[lowcuts.index(lc_val)])) for lc_val in lowcuts]
+    # median of abs value of the diff
 
     best_lowcut = lowcuts[np.argmin(std_pdiffs)]  # Best lowcut is solution with smallest spread (not solution that has the closest percent difference)
     pdiff_offset = avg_pdiffs[np.argmin(std_pdiffs)]  # The mean percent difference associated with the chosen lowcut value is the offset value
 
     line_dict[line] = (best_lowcut, np.min(std_pdiffs), pdiff_offset, np.mean(hand_all))
-
+    calibration = list(zip(lowcuts, np.round(np.array(std_pdiffs)*1.5, 2), np.round(avg_pdiffs, 2)))
+    print(calibration)
     if write_out:
-        csvwriter.writerow([line, best_lowcut, np.min(std_pdiffs) * 1.5, pdiff_offset])
+        csvwriter.writerow([line, best_lowcut, np.min(std_pdiffs) * 1.5, pdiff_offset, calibration])
 
 
 if write_out:
