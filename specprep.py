@@ -20,7 +20,8 @@ class SpecPrep:
         self.file_glob = glob.glob(os.path.join(path, self.files))
         for filename in self.file_glob:
             print(filename)
-            has_measurement = self.linelist_from_csv(filename, outdir=self.outdir, gen_ew_file=self.gen_ew_file)
+            #has_measurement = self.linelist_from_csv(filename, outdir=self.outdir, gen_ew_file=self.gen_ew_file)
+            has_measurement = True
             if has_measurement:
                 self.onedspec_fits(filename, path=self.path, outdir=self.outdir)
                 self.spec_lpx(filename, path=self.outdir, outdir=self.outdir)
