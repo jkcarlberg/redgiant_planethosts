@@ -13,7 +13,7 @@ def moogprep(ew_file, output_dir, fe_line_file="cluster_fe_lines.csv"):
     clust, star = ew_file.split("/")[-1].split("_")[0:2]
     f_name = clust + "_" + star[0:-3]
     with open(output_dir+f_name+".txt", "w") as f:
-        f.write(f_name+"\n")
+        f.write(f_name+ " " + "(generated using the moogprep.py script)"+"\n")
         fe_lines = pd.read_csv(fe_line_file).loc[:, :'Log-gf']
         ew_list = pd.read_csv(ew_file, delim_whitespace=True).loc[:, :'EW']
 
@@ -31,7 +31,13 @@ def moogprep(ew_file, output_dir, fe_line_file="cluster_fe_lines.csv"):
 
             else:
                 ew = float(crossref)
-                file_line = "  {:.2f}\t{:.1f}\t{:.2f}\t{:.2f}\t\t\t{:.2f}".format(wav, ion, ep, log_gf, ew)
+                formatted_string = "{:.2f} {:.1f} {:.2f} {:.2f} {:.2f}".format(wav, ion, ep, log_gf, ew)
+                wav, ion, ep, log_gf, ew = formatted_string.split(" ")
+                file_line = "  {}{}{}{}{}{}{}{}{}".format(wav, " "*(10-len(wav)),
+                                                                              ion, " "*(10-len(ion)),
+                                                                              ep, " "*(10-len(ep)),
+                                                                              log_gf, " "*((10-len(log_gf))+20),
+                                                                              ew, " "*(10-len(ew)))
                 f.write(file_line)
                 f.write("\n")
 
