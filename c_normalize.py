@@ -14,9 +14,9 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 
     Parameters
     ----------
-    spec: array
+    spec: numpy.array
         the spectrum to normalize
-    wave: array
+    wave: numpy.array
         wavelength array that corresponds to spec
     window: int, optional
         size of the window in pixels. Default is the greater of npix/20 or 10 pixels
@@ -41,5 +41,8 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
         fit_pts (array): array of indices used in the fitting
 
     """
-    pass
+    nspec = len(spec)
+
+    spec_weight = np.zeros(nspec)
+    new_spec = np.zeros(nspec)
 
