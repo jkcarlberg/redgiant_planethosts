@@ -19,7 +19,7 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
     wave: numpy.array
         wavelength array that corresponds to spec
     window: int, optional
-        size of the window in pixels. Default is the greater of npix/20 or 10 pixels
+        size of the sweeping window in pixels. Default is the greater of npix/20 or 10 pixels
     hsig: int, optional
         high sigma clip. Default is 6.
     npoly: int, optional
@@ -45,4 +45,26 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 
     spec_weight = np.zeros(nspec)
     new_spec = np.zeros(nspec)
+
+    spec_median = np.median(spec)
+    spec_sigma = np.std(spec)
+
+    if window is None:
+        winsize = max(nspec/20, 10)
+    else:
+        winsize = window
+
+    all_sigma = np.zeros(nspec)
+    # Loop through spectrum points
+    for i in range(nspec):
+        lowi = (i - winsize/2) > 0
+        highi = (i + winsize/2) < nspec
+        spec_chunk = spec[lowi:highi]
+        sig_chunk = np.std(spec_chunk)
+        all_sigma[i] = sig_chunk
+    small_sigma = np.median(all_sigma)
+
+    # Loop through spectrum points again
+
+
 
