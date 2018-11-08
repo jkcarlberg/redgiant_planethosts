@@ -75,7 +75,6 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 
         # find the maximum of all points that are within some sigma of the median
         maxpt = np.where(spec_chunk == max(spec_chunk[spec_chunk < mediani+hsig*small_sigma]))[0][0]
-        print(maxpt)
         if median_replace:
             new_spec[i] = mediani
         else:
@@ -88,7 +87,17 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
         spec_mask = np.array([spec_weight != 0]) * np.array([specrange > winsize]) * np.array([
             specrange < nspec - winsize])
     ct_fit = np.sum(spec_mask)
-    to_fit = np.where(spec_mask)[1]
+    tofit = np.where(spec_mask)[1]
+
+    # Mask out edge pixels as set by the ignore keyword and counts above the lowercut as set by low_cut
+    tofit_old = tofit
+    kp_mask = [np.array([tofit_old]) > ignore] and [np.array([tofit_old]) < (nspec - ignore - 1)] and [np.array(
+        spec[tofit_old]) > low_cut]
+    ct_fit = np.sum(kp_mask)
+    kp = np.where(kp_mask)
+    tofit = tofit_old[kp]
+
+
 
 
 
