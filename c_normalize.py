@@ -77,6 +77,11 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
         maxpt = np.where(spec_chunk == max(spec_chunk[spec_chunk < mediani+hsig*small_sigma]))[0][0]
         if median_replace:
             new_spec[i] = mediani
+        else:
+            spec_weight[maxpt+lowi] += 1
+
+    if median_replace:
+        tofit = np.where()
 
 
 if __name__ == "__main__":
