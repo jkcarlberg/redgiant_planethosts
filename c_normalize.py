@@ -57,14 +57,40 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
     all_sigma = np.zeros(nspec)
     # Loop through spectrum points
     for i in range(nspec):
-        lowi = (i - winsize/2) > 0
-        highi = (i + winsize/2) < nspec
+        print(i, winsize)
+        lowi = int(max(i - winsize/2, 0))
+        highi = int(min(i + winsize/2, nspec))
+        print(lowi, highi)
         spec_chunk = spec[lowi:highi]
         sig_chunk = np.std(spec_chunk)
         all_sigma[i] = sig_chunk
     small_sigma = np.median(all_sigma)
 
     # Loop through spectrum points again
+    for i in range(nspec):
+        lowi = int(max(i - winsize / 2, 0))
+        highi = int(min(i + winsize / 2, nspec))
+        spec_chunk = spec[lowi:highi]
+        mediani = np.median(spec_chunk)
+
+        # find the maximum of all points that are within some sigma of the median
+        maxpt = np.where(spec_chunk == max(spec_chunk[spec_chunk < mediani+hsig*small_sigma]))[0][0]
+        if median_replace:
+            new_spec[i] = mediani
+
+
+if __name__ == "__main__":
+    from astropy.io import fits
+    from astropy.convolution import convolve, Box1DKernel
+    from astropy import units as u
+    s_hdu = fits.open("Data/ew_known/tame_inputs/col110_1134red_oned_25jan14_wavsoln.fits")
+
+    s_data = s_hdu[1].data
+    s_flux = s_data['FLUX']
+    smoothed_flux = convolve(s_flux, Box1DKernel(5))
+    s_flux = smoothed_flux
+    s_wav = s_data['WAVEL'] * u.AA
+    c_normalize(s_flux, s_wav)
 
 
 
