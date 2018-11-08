@@ -1,5 +1,7 @@
 #!/usr/bin/python
 import numpy as np
+#from multiprocessing import Pool, cpu_count
+
 
 
 def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, ignore=0, cheby=True, low_cut=0):
@@ -57,10 +59,8 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
     all_sigma = np.zeros(nspec)
     # Loop through spectrum points
     for i in range(nspec):
-        print(i, winsize)
         lowi = int(max(i - winsize/2, 0))
         highi = int(min(i + winsize/2, nspec))
-        print(lowi, highi)
         spec_chunk = spec[lowi:highi]
         sig_chunk = np.std(spec_chunk)
         all_sigma[i] = sig_chunk
@@ -75,26 +75,36 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 
         # find the maximum of all points that are within some sigma of the median
         maxpt = np.where(spec_chunk == max(spec_chunk[spec_chunk < mediani+hsig*small_sigma]))[0][0]
+        print(maxpt)
         if median_replace:
             new_spec[i] = mediani
         else:
             spec_weight[maxpt+lowi] += 1
 
+    specrange = np.arange(nspec, dtype='float')
     if median_replace:
-        tofit = np.where()
+        spec_mask = (np.array([specrange > winsize]) * np.array([specrange < (nspec-winsize)]))
+    else:
+        spec_mask = np.array([spec_weight != 0]) * np.array([specrange > winsize]) * np.array([
+            specrange < nspec - winsize])
+    ct_fit = np.sum(spec_mask)
+    to_fit = np.where(spec_mask)[1]
+
 
 
 if __name__ == "__main__":
     from astropy.io import fits
     from astropy.convolution import convolve, Box1DKernel
-    from astropy import units as u
     s_hdu = fits.open("Data/ew_known/tame_inputs/col110_1134red_oned_25jan14_wavsoln.fits")
 
     s_data = s_hdu[1].data
     s_flux = s_data['FLUX']
     smoothed_flux = convolve(s_flux, Box1DKernel(5))
     s_flux = smoothed_flux
-    s_wav = s_data['WAVEL'] * u.AA
+    s_wav = s_data['WAVEL']
+    wav_mask = (s_wav > 5305) & (s_wav < 5310)
+    s_flux = s_flux[wav_mask]
+    s_wav = s_wav[wav_mask]
     c_normalize(s_flux, s_wav)
 
 
