@@ -100,6 +100,22 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
         print("ct_fit < npoly+1")
     fit_pts = tofit
 
+    if median_replace:
+        errs = np.ones(ct_fit)
+    else:
+        errs = spec[tofit]/(10. * spec_weight[tofit])
+
+    if cheby:
+        low = min(wave[tofit])
+        hi = max(wave[tofit])
+
+        coeffs = np.polynomial.chebyshev.chebfit(wave[tofit], spec[tofit], deg=npoly)
+        yfit = np.polynomial.chebyshev.chebval(wave, coeffs)
+        print(yfit)
+
+
+
+
 
 
 
