@@ -94,8 +94,13 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
     kp_mask = [np.array([tofit_old]) > ignore] and [np.array([tofit_old]) < (nspec - ignore - 1)] and [np.array(
         spec[tofit_old]) > low_cut]
     ct_fit = np.sum(kp_mask)
-    kp = np.where(kp_mask)
+    kp = np.where(kp_mask)[1]
     tofit = tofit_old[kp]
+    if ct_fit < npoly+1:
+        print("ct_fit < npoly+1")
+    fit_pts = tofit
+
+
 
 
 
