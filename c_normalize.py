@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import numpy as np
-#from multiprocessing import Pool, cpu_count
-
+# from multiprocessing import Pool, cpu_count
 
 
 def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, ignore=0, cheby=True, low_cut=0):
@@ -111,15 +110,14 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 
         coeffs = np.polynomial.chebyshev.chebfit(wave[tofit], spec[tofit], deg=npoly)
         yfit = np.polynomial.chebyshev.chebval(wave, coeffs)
-        print(yfit)
-
-
-
-
-
-
-
-
+        # print(yfit)
+    else:
+        coeffs = np.polyfit(wave[tofit], spec[tofit], npoly)
+        fitted_y = np.poly1d(coeffs)
+        yfit = fitted_y(wave)
+        # print(yfit)
+    output = (yfit, spec/yfit, fit_pts)
+    return output
 
 
 if __name__ == "__main__":
@@ -135,7 +133,7 @@ if __name__ == "__main__":
     wav_mask = (s_wav > 5305) & (s_wav < 5310)
     s_flux = s_flux[wav_mask]
     s_wav = s_wav[wav_mask]
-    c_normalize(s_flux, s_wav)
+    c_normalize(s_flux, s_wav, cheby=False)
 
 
 
