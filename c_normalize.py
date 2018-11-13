@@ -112,7 +112,7 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
         yfit = np.polynomial.chebyshev.chebval(wave, coeffs)
         # print(yfit)
     else:
-        coeffs = np.polyfit(wave[tofit], spec[tofit], npoly)
+        coeffs = np.polyfit(wave[tofit], spec[tofit], npoly, w=errs)
         fitted_y = np.poly1d(coeffs)
         yfit = fitted_y(wave)
         # print(yfit)
@@ -123,6 +123,7 @@ def c_normalize(spec, wave, window=None, hsig=6, npoly=3, median_replace=True, i
 if __name__ == "__main__":
     from astropy.io import fits
     from astropy.convolution import convolve, Box1DKernel
+    import matplotlib.pyplot as plt
     s_hdu = fits.open("Data/ew_known/tame_inputs/col110_1134red_oned_25jan14_wavsoln.fits")
 
     s_data = s_hdu[1].data
@@ -130,10 +131,10 @@ if __name__ == "__main__":
     smoothed_flux = convolve(s_flux, Box1DKernel(5))
     s_flux = smoothed_flux
     s_wav = s_data['WAVEL']
-    wav_mask = (s_wav > 5305) & (s_wav < 5310)
+    wav_mask = (s_wav > 5295) & (s_wav < 5320)
     s_flux = s_flux[wav_mask]
     s_wav = s_wav[wav_mask]
-    c_normalize(s_flux, s_wav, cheby=False)
+    c_normalize(s_flux, s_wav, median_replace=False, cheby=True)
 
 
 
