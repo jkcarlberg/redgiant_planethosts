@@ -52,7 +52,8 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
                  '5577.03': (10, 0.18, 0.15, [-0.3], [0], 0.15, 0), '5807.78': (10, 0.15, 0.15, [-0.3], [0], 0.15, 0),
                  '6699.15': (10, 0.17, 0.17, [-0.3], [0], 0.15, 0),
                  '5636.7': (10, 0.15, 0.67, [-0.2, -0.3], [0, 0.4], 0.15, 0),
-                 '5635.82': (10, 0.18, 0.6, [-0.3, -0.1], [0, 0.4], 0.15, 0)}
+                 '5635.82': (10, 0.18, 0.6, [-0.3, -0.1], [0, 0.4], 0.15, 0),
+                 '5691.50': (10, 0.2, 0.12, [-0.3], [0], 0.15, 0), '6481.87': (10, 0.2, 0.13, [-0.3], [0], 0.15, 0)}
 
     for file in files:
         line_eqws = []  # Create a list that will be populated by eqw measurements for each line [line,eqw,fitwidth]
@@ -71,6 +72,8 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
         # Calculate Equivalent Width for each line
         for line in lines:
             # Set fitting parameters
+            if (str(line) == '7189.16') and ('ngc2204' in file):
+                continue
             if str(line) in pars_dict.keys():
                 key = str(line)
                 print("Using Custom Parameters for {}".format(key))
@@ -92,51 +95,51 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
                 gauss_cenoffs = [0.0]
                 c_select = 0
 
-                # Determine the wavelength range to sample for the local continuum
-                lim_l = line - width
-                lim_r = line + width
+            # Determine the wavelength range to sample for the local continuum
+            lim_l = line - width
+            lim_r = line + width
 
-                # Mask the flux and wavelength arrays based on the sampled wavelength range
-                wav_mask = (s_wav > lim_l) & (s_wav < lim_r)
-                s_localflux = s_flux[wav_mask]
-                s_localwav = s_wav[wav_mask]
+            # Mask the flux and wavelength arrays based on the sampled wavelength range
+            wav_mask = (s_wav > lim_l) & (s_wav < lim_r)
+            s_localflux = s_flux[wav_mask]
+            s_localwav = s_wav[wav_mask]
 
-                # Normalize the local continuum
-                yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
+            # Normalize the local continuum
+            yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
 
-                # Load the normalized spectrum into a pyspeckit.Spectrum object
-                sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
+            # Load the normalized spectrum into a pyspeckit.Spectrum object
+            sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
 
-                # Define a baseline array for the normalized spectrum (1.0)
-                sp.baseline.basespec = np.ones(len(s_localwav))
+            # Define a baseline array for the normalized spectrum (1.0)
+            sp.baseline.basespec = np.ones(len(s_localwav))
 
-                # Fit a (multi-component if designated) gaussian to the line
-                guesses = []
-                for amp, cenoff in zip(gauss_amps, gauss_cenoffs):
-                    guesses.append(amp)
-                    guesses.append(line + cenoff)
-                    guesses.append(gauss_width)
+            # Fit a (multi-component if designated) gaussian to the line
+            guesses = []
+            for amp, cenoff in zip(gauss_amps, gauss_cenoffs):
+                guesses.append(amp)
+                guesses.append(line + cenoff)
+                guesses.append(gauss_width)
 
-                with suppress_stdout():  # Suppress some annoying info messages
-                    sp.specfit(fittype='gaussian', guesses=guesses,
-                               exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
-                fwhm = sp.specfit.parinfo[2].value
+            with suppress_stdout():  # Suppress some annoying info messages
+                sp.specfit(fittype='gaussian', guesses=guesses,
+                            exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
+            fwhm = sp.specfit.parinfo[2].value
 
-                # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
-                eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
+            # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
+            eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
                                      components=True)
-                eqw = eqw[c_select] * 1000  # mA
+            eqw = eqw[c_select] * 1000  # mA
 
-                # calculate broadening (used as a measure for fit quality) in km/s
-                broadening = c.c.value*float(fwhm)/float(line)/1000
-                line_eqws.append([line, eqw, broadening])
+            # calculate broadening (used as a measure for fit quality) in km/s
+            broadening = c.c.value*float(fwhm)/float(line)/1000
+            line_eqws.append([line, eqw, broadening])
 
-                # Grab line properties for MOOG
-                ion = line_df[line_df[0] == line][1].tolist()[0]
-                ep = line_df[line_df[0] == line][2].tolist()[0]
-                log_gf = line_df[line_df[0] == line][3].tolist()[0]
+            # Grab line properties for MOOG
+            ion = line_df[line_df[0] == line][1].tolist()[0]
+            ep = line_df[line_df[0] == line][2].tolist()[0]
+            log_gf = line_df[line_df[0] == line][3].tolist()[0]
 
-                moog_vals.append([line, ion, ep, log_gf, eqw])
+            moog_vals.append([line, ion, ep, log_gf, eqw])
 
         # Write line_eqws into an output eqw file
         out_df = pd.DataFrame(line_eqws, columns=["Line", "EQW", "Broadening"])
@@ -162,8 +165,14 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
 
 
 if __name__ == "__main__":
+    calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
+            "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
+
     calc_ew("pydata/oc_rrs/inputs/*wavsoln.fits", "pydata/oc_rrs/inputs/input_lines.lines",
             "pydata/oc_rrs/equiv_widths/", "pydata/oc_rrs/moog_inputs/")
 
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
+
+    calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
+            "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
