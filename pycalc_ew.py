@@ -91,6 +91,12 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
             s_localflux = s_flux[wav_mask]
             s_localwav = s_wav[wav_mask]
 
+            # Don't try to fit if line lies in an order edge (flux is zeroes)
+            order_edges = s_localwav[s_localflux == 0.0]
+            if len(order_edges) > 0:
+                if min(order_edges) <= line <= max(order_edges):
+                    continue
+
             # Normalize the local continuum
             yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
 
@@ -109,12 +115,12 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
 
             with suppress_stdout():  # Suppress some annoying info messages
                 sp.specfit(fittype='gaussian', guesses=guesses,
-                            exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
+                           exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
             fwhm = sp.specfit.parinfo[2].value
 
             # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
             eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
-                                     components=True)
+                                 components=True)
             eqw = eqw[c_select] * 1000  # mA
 
             # calculate broadening (used as a measure for fit quality) in km/s
@@ -132,7 +138,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
         out_df = pd.DataFrame(line_eqws, columns=["Line", "EQW", "Broadening"])
         out_df.to_csv(eqw_out_dir+out_file, sep=' ', index=False)
 
-        #Generate a file for MOOG input
+        # Generate a file for MOOG input
         clust, star = file.split("/")[-1].split("_")[0:2]
         f_name = clust + "_" + star[0:-3]
 
@@ -152,6 +158,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
 
 
 if __name__ == "__main__":
+    """
     calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
             "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
 
@@ -160,6 +167,6 @@ if __name__ == "__main__":
 
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
-
+    """
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
