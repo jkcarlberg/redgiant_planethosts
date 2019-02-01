@@ -3,16 +3,14 @@ import numpy as np
 from astropy import units as u
 from astropy.io import fits
 from astropy import constants as c
-import matplotlib.pyplot as plt
-from astropy.convolution import convolve, Box1DKernel
 from c_normalize import c_normalize
 import glob
 import pandas as pd
 import warnings
-import mplcursors
 from contextlib import contextmanager
 import sys
 import os
+import yaml
 warnings.filterwarnings("ignore")
 
 
@@ -42,18 +40,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
     # key: local continuum range (Angstroms), Sample Region Left, Sample Region Right,
     # Gaussian Amplitude Estimates (in list for multicomponent fits), gaussian center offsets
     # (in list for multicomponent fits), Gaussian Width, selected component
-    pars_dict = {'5838.37': (10, 0.15, 0.15, [-0.3], [0], 0.15, 0), '7189.16': (10, 0.23, 0.1, [-0.3], [0], 0.15, 0),
-                 '5712.13': (10, 0.5, 0.2, [-0.3, -0.3], [0, -0.2], 0.15, 0),
-                 '5698.02': (10, 0.25, 0.7, [-0.3, -0.5], [0, 0.2], 0.15, 0),
-                 '5284.1': (10, 1, 0.4, [-0.3, -0.7, -0.3], [0, -0.3, 0.2], 0.15, 0),
-                 '5536.58': (10, 0.1, 0.2, [-0.3], [0], 0.15, 0),
-                 '5325.56': (10, 0.4, 0.18, [-0.3, -0.1], [0, -0.25], 0.15, 0),
-                 '5837.7': (10, 0.55, 0.45, [-0.3, -0.1, -0.2], [0, -0.37, 0.395], 0.15, 0),
-                 '5577.03': (10, 0.18, 0.15, [-0.3], [0], 0.15, 0), '5807.78': (10, 0.15, 0.15, [-0.3], [0], 0.15, 0),
-                 '6699.15': (10, 0.17, 0.17, [-0.3], [0], 0.15, 0),
-                 '5636.7': (10, 0.15, 0.67, [-0.2, -0.3], [0, 0.4], 0.15, 0),
-                 '5635.82': (10, 0.18, 0.6, [-0.3, -0.1], [0, 0.4], 0.15, 0),
-                 '5691.50': (10, 0.2, 0.12, [-0.3], [0], 0.15, 0), '6481.87': (10, 0.2, 0.13, [-0.3], [0], 0.15, 0)}
+    pars_dict = yaml.load(open('line_pars.yml'))
 
     for file in files:
         line_eqws = []  # Create a list that will be populated by eqw measurements for each line [line,eqw,fitwidth]
