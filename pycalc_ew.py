@@ -11,6 +11,7 @@ from contextlib import contextmanager
 import sys
 import os
 import yaml
+from dask import compute, delayed
 warnings.filterwarnings("ignore")
 
 
@@ -23,6 +24,84 @@ def suppress_stdout():
             yield
         finally:
             sys.stdout = old_stdout
+
+
+def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
+    # Set fitting parameters
+    if (str(line) == '7189.16') and ('ngc2204' in file):
+        return [np.nan]*6
+    if str(line) in pars_dict.keys():
+        key = str(line)
+        print("Using Custom Parameters for {}".format(key))
+
+        width = pars_dict[key][0]  # Distance from the line on both sides to sample the local continuum from
+        gauss_centhresh_l = pars_dict[key][1]
+        gauss_centhresh_r = pars_dict[key][2]
+        gauss_amps = pars_dict[key][3]  # list for components
+        gauss_cenoffs = pars_dict[key][4]  # list for components
+        gauss_width = pars_dict[key][5]
+        c_select = pars_dict[key][6]
+
+    else:
+        width = 10  # Distance from the line on both sides to sample the local continuum from
+        gauss_amps = [-0.2]
+        gauss_width = 0.15
+        gauss_centhresh_l = 0.2
+        gauss_centhresh_r = 0.2
+        gauss_cenoffs = [0.0]
+        c_select = 0
+
+    # Determine the wavelength range to sample for the local continuum
+    lim_l = line - width
+    lim_r = line + width
+
+    # Mask the flux and wavelength arrays based on the sampled wavelength range
+    wav_mask = (s_wav > lim_l) & (s_wav < lim_r)
+    s_localflux = s_flux[wav_mask]
+    s_localwav = s_wav[wav_mask]
+
+    # Don't try to fit if line lies in an order edge (flux is zeroes)
+    order_edges = s_localwav[s_localflux == 0.0]
+    if len(order_edges) > 0:
+        if min(order_edges) <= line <= max(order_edges):
+            return [np.nan]*6
+
+    # Normalize the local continuum
+    yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
+
+    # Load the normalized spectrum into a pyspeckit.Spectrum object
+    sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
+
+    # Define a baseline array for the normalized spectrum (1.0)
+    sp.baseline.basespec = np.ones(len(s_localwav))
+
+    # Fit a (multi-component if designated) gaussian to the line
+    guesses = []
+    for amp, cenoff in zip(gauss_amps, gauss_cenoffs):
+        guesses.append(amp)
+        guesses.append(line + cenoff)
+        guesses.append(gauss_width)
+
+    with suppress_stdout():  # Suppress some annoying info messages
+        sp.specfit(fittype='gaussian', guesses=guesses,
+                   exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
+    fwhm = sp.specfit.parinfo[2].value
+
+    # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
+    eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
+                         components=True)
+    eqw = eqw[c_select] * 1000  # mA
+
+    # calculate broadening (used as a measure for fit quality) in km/s
+    broadening = c.c.value * float(fwhm) / float(line) / 1000
+    #line_eqws.append([line, eqw, broadening])
+
+    # Grab line properties for MOOG
+    ion = line_df[line_df[0] == line][1].tolist()[0]
+    ep = line_df[line_df[0] == line][2].tolist()[0]
+    log_gf = line_df[line_df[0] == line][3].tolist()[0]
+
+    return [line, ion, ep, log_gf, eqw, broadening]
 
 
 def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
@@ -57,82 +136,14 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
         s_wav = s_data['WAVEL']
 
         # Calculate Equivalent Width for each line
-        for line in lines:
-            # Set fitting parameters
-            if (str(line) == '7189.16') and ('ngc2204' in file):
-                continue
-            if str(line) in pars_dict.keys():
-                key = str(line)
-                print("Using Custom Parameters for {}".format(key))
+        inputs = zip(lines, )
+        values = [delayed(ew_line_calc)(line[0], file, s_flux, s_wav, pars_dict, line_df) for line in inputs]
+        results = compute(*values, scheduler='processes')
 
-                width = pars_dict[key][0]  # Distance from the line on both sides to sample the local continuum from
-                gauss_centhresh_l = pars_dict[key][1]
-                gauss_centhresh_r = pars_dict[key][2]
-                gauss_amps = pars_dict[key][3]  # list for components
-                gauss_cenoffs = pars_dict[key][4]  # list for components
-                gauss_width = pars_dict[key][5]
-                c_select = pars_dict[key][6]
-
-            else:
-                width = 10  # Distance from the line on both sides to sample the local continuum from
-                gauss_amps = [-0.2]
-                gauss_width = 0.15
-                gauss_centhresh_l = 0.2
-                gauss_centhresh_r = 0.2
-                gauss_cenoffs = [0.0]
-                c_select = 0
-
-            # Determine the wavelength range to sample for the local continuum
-            lim_l = line - width
-            lim_r = line + width
-
-            # Mask the flux and wavelength arrays based on the sampled wavelength range
-            wav_mask = (s_wav > lim_l) & (s_wav < lim_r)
-            s_localflux = s_flux[wav_mask]
-            s_localwav = s_wav[wav_mask]
-
-            # Don't try to fit if line lies in an order edge (flux is zeroes)
-            order_edges = s_localwav[s_localflux == 0.0]
-            if len(order_edges) > 0:
-                if min(order_edges) <= line <= max(order_edges):
-                    continue
-
-            # Normalize the local continuum
-            yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
-
-            # Load the normalized spectrum into a pyspeckit.Spectrum object
-            sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
-
-            # Define a baseline array for the normalized spectrum (1.0)
-            sp.baseline.basespec = np.ones(len(s_localwav))
-
-            # Fit a (multi-component if designated) gaussian to the line
-            guesses = []
-            for amp, cenoff in zip(gauss_amps, gauss_cenoffs):
-                guesses.append(amp)
-                guesses.append(line + cenoff)
-                guesses.append(gauss_width)
-
-            with suppress_stdout():  # Suppress some annoying info messages
-                sp.specfit(fittype='gaussian', guesses=guesses,
-                           exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
-            fwhm = sp.specfit.parinfo[2].value
-
-            # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
-            eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
-                                 components=True)
-            eqw = eqw[c_select] * 1000  # mA
-
-            # calculate broadening (used as a measure for fit quality) in km/s
-            broadening = c.c.value*float(fwhm)/float(line)/1000
-            line_eqws.append([line, eqw, broadening])
-
-            # Grab line properties for MOOG
-            ion = line_df[line_df[0] == line][1].tolist()[0]
-            ep = line_df[line_df[0] == line][2].tolist()[0]
-            log_gf = line_df[line_df[0] == line][3].tolist()[0]
-
-            moog_vals.append([line, ion, ep, log_gf, eqw])
+        nans = [np.sum(row) for row in np.isnan(results)]
+        results = np.array(results)[np.array(nans) == 0]
+        line_eqws = [[row[0], row[4], row[5]] for row in results]
+        moog_vals = [row[:-1] for row in results]
 
         # Write line_eqws into an output eqw file
         out_df = pd.DataFrame(line_eqws, columns=["Line", "EQW", "Broadening"])
@@ -170,3 +181,5 @@ if __name__ == "__main__":
     """
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
+
+
