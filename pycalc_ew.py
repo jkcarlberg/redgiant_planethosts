@@ -32,7 +32,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
         return [np.nan]*6
     if str(line) in pars_dict.keys():
         key = str(line)
-        print("Using Custom Parameters for {}".format(key))
+        #print("Using Custom Parameters for {}".format(key))
 
         width = pars_dict[key][0]  # Distance from the line on both sides to sample the local continuum from
         gauss_centhresh_l = pars_dict[key][1]
