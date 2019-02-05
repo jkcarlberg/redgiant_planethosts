@@ -29,7 +29,7 @@ def suppress_stdout():
 def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     # Set fitting parameters
     if (str(line) == '7189.16') and ('ngc2204' in file):
-        return [np.nan]*6 + [2]
+        return [line] + [np.nan]*5 +[2]
     if str(line) in pars_dict.keys():
         key = str(line)
 
@@ -63,7 +63,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     order_edges = s_localwav[s_localflux == 0.0]
     if len(order_edges) > 0:
         if min(order_edges) <= line <= max(order_edges):
-            return [np.nan]*6 +[1]
+            return [line] + [np.nan]*5 +[1]
 
     # Normalize the local continuum
     yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
@@ -200,9 +200,16 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             log_file.write("==========\n")
             log_file.write(f_name+'\n')
             log_file.write("==========\n")
+            for row in results:
+                if row[-1] == 1:
+                    log_file.write("Omitted: {} (Bad EQW)\n".format(row[0]))
+            for row in flagged_results:
+                if row[-1] == 3:
+                    log_file.write("Warning: {} (High EQW or Broadening Outlier), EQW = {}\n".format(row[0], row[4]))
 
     if log:
         log_file.close()
+
 
 if __name__ == "__main__":
     """
@@ -214,12 +221,12 @@ if __name__ == "__main__":
 
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
-
+    """
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
-    """
-    calc_ew("pydata/ew_known/inputs/col110_1134*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
-            "pydata/ew_known/", "pydata/ew_known/")
+
+    #calc_ew("pydata/ew_known/inputs/col110_1134*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
+    #        "pydata/ew_known/", "pydata/ew_known/")
 
 
 
