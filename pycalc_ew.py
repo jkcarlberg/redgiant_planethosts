@@ -29,10 +29,9 @@ def suppress_stdout():
 def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     # Set fitting parameters
     if (str(line) == '7189.16') and ('ngc2204' in file):
-        return [np.nan]*6
+        return [np.nan]*6 + [2]
     if str(line) in pars_dict.keys():
         key = str(line)
-        #print("Using Custom Parameters for {}".format(key))
 
         width = pars_dict[key][0]  # Distance from the line on both sides to sample the local continuum from
         gauss_centhresh_l = pars_dict[key][1]
@@ -64,7 +63,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     order_edges = s_localwav[s_localflux == 0.0]
     if len(order_edges) > 0:
         if min(order_edges) <= line <= max(order_edges):
-            return [np.nan]*6
+            return [np.nan]*6 +[1]
 
     # Normalize the local continuum
     yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.99)
@@ -94,17 +93,23 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
 
     # calculate broadening (used as a measure for fit quality) in km/s
     broadening = c.c.value * float(fwhm) / float(line) / 1000
-    #line_eqws.append([line, eqw, broadening])
 
     # Grab line properties for MOOG
     ion = line_df[line_df[0] == line][1].tolist()[0]
     ep = line_df[line_df[0] == line][2].tolist()[0]
     log_gf = line_df[line_df[0] == line][3].tolist()[0]
+    dq_flag = 0  # Flag for measurement quality, 0=Good, 1=Omit (log), 2=Omit (Don't log), 3=Warn
 
-    return [line, ion, ep, log_gf, eqw, broadening]
+    # Omit Measurements that return ridiculous EQWs
+    if (eqw <= 0.0) or (eqw > 500):
+        dq_flag = 1
+    elif eqw > 300:
+        dq_flag = 3
+
+    return [line, ion, ep, log_gf, eqw, broadening, dq_flag]
 
 
-def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
+def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
     # Select Dataset
     files = glob.glob(file_list)
 
@@ -120,6 +125,9 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
     # Gaussian Amplitude Estimates (in list for multicomponent fits), gaussian center offsets
     # (in list for multicomponent fits), Gaussian Width, selected component
     pars_dict = yaml.load(open('line_pars.yml'))
+
+    if log:
+        log_file = open(moog_out_dir + "../runlog.txt", "w")
 
     for file in files:
         line_eqws = []  # Create a list that will be populated by eqw measurements for each line [line,eqw,fitwidth]
@@ -138,12 +146,34 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
         # Calculate Equivalent Width for each line
         inputs = zip(lines, )
         values = [delayed(ew_line_calc)(line[0], file, s_flux, s_wav, pars_dict, line_df) for line in inputs]
-        results = compute(*values, scheduler='processes')
+        results = np.array(compute(*values, scheduler='processes'))
 
-        nans = [np.sum(row) for row in np.isnan(results)]
-        results = np.array(results)[np.array(nans) == 0]
-        line_eqws = [[row[0], row[4], row[5]] for row in results]
-        moog_vals = [row[:-1] for row in results]
+        dq_flags = np.array([row[6] for row in results])
+
+
+        # Omit Lines if they have the omit flag set (not logged)
+        results = results[dq_flags != 2]
+        dq_flags = np.array(dq_flags[dq_flags != 2])
+
+        # Omit Lines if they have the omit flag set (logged)
+        masked_results = results[dq_flags != 1]
+
+        # Check broadening for all lines -- update DQ flags if outliers are present
+
+        broadening = np.array([row[5] for row in masked_results])
+        sigma = 3
+        broad_mask = abs(broadening - np.mean(broadening)) > sigma * np.std(broadening)
+
+        flagged_results = []
+        for row, mask_bool in zip(masked_results, broad_mask):
+            if mask_bool:
+                flagged_results.append(row[:-1] + [3])
+            else:
+                flagged_results.append(row)
+
+        # Grab values for EQW and MOOG files
+        line_eqws = [[row[0], row[4], row[5]] for row in flagged_results]
+        moog_vals = [row[0:5] for row in flagged_results]
 
         # Write line_eqws into an output eqw file
         out_df = pd.DataFrame(line_eqws, columns=["Line", "EQW", "Broadening"])
@@ -166,7 +196,13 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir):
                                                           ew, " " * (10 - len(ew)))
                 f.write(file_line)
                 f.write("\n")
+        if log:
+            log_file.write("==========\n")
+            log_file.write(f_name+'\n')
+            log_file.write("==========\n")
 
+    if log:
+        log_file.close()
 
 if __name__ == "__main__":
     """
@@ -178,8 +214,14 @@ if __name__ == "__main__":
 
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
-    """
+
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
+    """
+    calc_ew("pydata/ew_known/inputs/col110_1134*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
+            "pydata/ew_known/", "pydata/ew_known/")
+
+
+
 
 
