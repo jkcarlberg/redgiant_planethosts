@@ -103,6 +103,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     # Omit Measurements that return ridiculous EQWs
     if (eqw <= 0.0) or (eqw > 500):
         dq_flag = 1
+    # Flag measurements that return EQWs that are higher than we'd typically expect
     elif eqw > 300:
         dq_flag = 3
 
@@ -126,6 +127,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
     # (in list for multicomponent fits), Gaussian Width, selected component
     pars_dict = yaml.load(open('line_pars.yml'))
 
+    # If log is enabled, create a log of omitted and warning-incurred measurements for tracking in post
     if log:
         log_file = open(moog_out_dir + "../runlog.txt", "w")
 
@@ -159,7 +161,6 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         masked_results = results[dq_flags != 1]
 
         # Check broadening for all lines -- update DQ flags if outliers are present
-
         broadening = np.array([row[5] for row in masked_results])
         sigma = 3
         broad_mask = abs(broadening - np.mean(broadening)) > sigma * np.std(broadening)
@@ -196,6 +197,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
                                                           ew, " " * (10 - len(ew)))
                 f.write(file_line)
                 f.write("\n")
+                
         if log:
             log_file.write("==========\n")
             log_file.write(f_name+'\n')
@@ -212,7 +214,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
 
 
 if __name__ == "__main__":
-    """
+
     calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
             "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
 
@@ -221,12 +223,10 @@ if __name__ == "__main__":
 
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
-    """
+
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
 
-    #calc_ew("pydata/ew_known/inputs/col110_1134*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
-    #        "pydata/ew_known/", "pydata/ew_known/")
 
 
 
