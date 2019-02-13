@@ -168,7 +168,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         flagged_results = []
         for row, mask_bool in zip(masked_results, broad_mask):
             if mask_bool:
-                flagged_results.append(row[:-1] + [3])
+                flagged_results.append(list(row[:-1]) + [3])
             else:
                 flagged_results.append(row)
 
@@ -197,7 +197,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
                                                           ew, " " * (10 - len(ew)))
                 f.write(file_line)
                 f.write("\n")
-                
+
         if log:
             log_file.write("==========\n")
             log_file.write(f_name+'\n')
@@ -215,16 +215,16 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
 
 if __name__ == "__main__":
 
-    calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/ew_known/inputs/input_lines.lines",
+    calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
 
-    calc_ew("pydata/oc_rrs/inputs/*wavsoln.fits", "pydata/oc_rrs/inputs/input_lines.lines",
+    calc_ew("pydata/oc_rrs/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/oc_rrs/equiv_widths/", "pydata/oc_rrs/moog_inputs/")
 
-    calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
+    calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
 
-    calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/ph_ctrl_stars/inputs/input_lines.lines",
+    calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
 
 
