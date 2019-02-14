@@ -101,7 +101,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     dq_flag = 0  # Flag for measurement quality, 0=Good, 1=Omit (log), 2=Omit (Don't log), 3=Warn
 
     # Omit Measurements that return ridiculous EQWs
-    if (eqw <= 0.0) or (eqw > 500):
+    if (eqw <= 0.01) or (eqw > 500):
         dq_flag = 1
     # Flag measurements that return EQWs that are higher than we'd typically expect
     elif eqw > 300:
