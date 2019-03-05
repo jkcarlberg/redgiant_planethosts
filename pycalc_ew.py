@@ -101,7 +101,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     dq_flag = 0  # Flag for measurement quality, 0=Good, 1=Omit (log), 2=Omit (Don't log), 3=Warn
 
     # Omit Measurements that return ridiculous EQWs
-    if (eqw <= 0.01) or (eqw > 500):
+    if (eqw <= 3) or (eqw > 500):
         dq_flag = 1
     # Flag measurements that return EQWs that are higher than we'd typically expect
     elif eqw > 300:
@@ -204,7 +204,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             log_file.write("==========\n")
             for row in results:
                 if row[-1] == 1:
-                    log_file.write("Omitted: {} (Bad EQW)\n".format(row[0]))
+                    log_file.write("Omitted: {} (Bad EQW, EQW = {})\n".format(row[0], row[4]))
             for row in flagged_results:
                 if row[-1] == 3:
                     log_file.write("Warning: {} (High EQW or Broadening Outlier), EQW = {}\n".format(row[0], row[4]))
@@ -214,7 +214,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
 
 
 if __name__ == "__main__":
-
+    """
     calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
 
@@ -226,7 +226,9 @@ if __name__ == "__main__":
 
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
-
+    """
+    calc_ew("pydata/misc/inputs/*wavsoln.fits", "pydata/input_lines.lines",
+            "pydata/misc/equiv_widths/", "pydata/misc/moog_inputs/")
 
 
 
