@@ -214,19 +214,19 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
 
 
 if __name__ == "__main__":
-    """
+    # Sample with Known EQWs
     calc_ew("pydata/ew_known/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/ew_known/equiv_widths/", "pydata/ew_known/moog_inputs/")
-
+    # Rapid Rotators
     calc_ew("pydata/oc_rrs/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/oc_rrs/equiv_widths/", "pydata/oc_rrs/moog_inputs/")
-
+    # Known Planet Hosts
     calc_ew("pydata/ph_ctrl_stars/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/ph_ctrl_stars/equiv_widths/", "pydata/ph_ctrl_stars/moog_inputs/")
-
+    # Dupont Data
     calc_ew("pydata/dupont_ph_ctrl/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/dupont_ph_ctrl/equiv_widths/", "pydata/dupont_ph_ctrl/moog_inputs/")
-    """
+    # Standards
     calc_ew("pydata/misc/inputs/*wavsoln.fits", "pydata/input_lines.lines",
             "pydata/misc/equiv_widths/", "pydata/misc/moog_inputs/")
 
