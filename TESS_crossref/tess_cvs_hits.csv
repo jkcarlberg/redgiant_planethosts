@@ -1,0 +1,7 @@
+STAR,COMP,RA,DEC,FIRSTREF,FIRSTURL,ORBREF,ORBURL,MSTAR,RSTAR,DIST,TEFF,LOGG,FE
+,,hr,deg,,,,,msun,rsun,pc,k,,
+HD 1237,b,0.26978916671541,-79.85104166666666,Naef 2001,http://adsabs.harvard.edu/abs/2001A%26A...375..205N,Naef 2001,http://adsabs.harvard.edu/abs/2001A%26A...375..205N,0.9,0.858011,17.4978,5536,4.56,0.12
+HD 39091,b,5.619109166728126,-80.47167500019074,Jones 2002,http://adsabs.harvard.edu/abs/2002MNRAS.333..871J,Butler 2006,http://adsabs.harvard.edu/abs/2006ApJ...646..505B,1.071,1.14999,18.315,5949.91,4.36259,0.048326
+HD 63454,b,7.656086111068726,-78.27887500021193,Moutou 2005,http://adsabs.harvard.edu/abs/2005A%26A...439..367M,Kane 2011,http://adsabs.harvard.edu/abs/2011ApJ...737...58K,0.8,1.15809,34.5423,4841,4.23,0.11
+HD 137388,b,15.59446972211202,-80.20469444433849,Dumusque 2011,http://adsabs.harvard.edu/abs/2011A%26A...535A..55D,Dumusque 2011,http://adsabs.harvard.edu/abs/2011A%26A...535A..55D,0.86,0.97784,38.4468,5240,4.42,0.18
+HD 142022,b,16.17138416661157,-84.23153611077203,Eggenberger 2006,http://adsabs.harvard.edu/abs/2006A%26A...447.1159E,Eggenberger 2006,http://adsabs.harvard.edu/abs/2006A%26A...447.1159E,0.9,1.09856,34.3289,5499,4.36,0.19

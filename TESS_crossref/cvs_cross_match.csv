@@ -1,0 +1,6 @@
+STAR,COMP,RA,DEC,FIRSTREF,FIRSTURL,ORBREF,ORBURL,MSTAR,RSTAR,DIST,TEFF,LOGG,FE
+,,hr,deg,,,,,msun,rsun,pc,k,,
+HIP 63242,b,12.95890361150106,-65.64653611077203,Jones 2013,http://adsabs.harvard.edu/abs/2013A%26A...556A..78J,Jones 2013,http://adsabs.harvard.edu/abs/2013A%26A...556A..78J,1.54,,134.771,4830,2.53,-0.31
+HD 11977,b,1.91555972205268,-67.64748055564033,Setiawan 2005,http://adsabs.harvard.edu/abs/2005A%26A...437L..31S,Setiawan 2005,http://adsabs.harvard.edu/abs/2005A%26A...437L..31S,2.31,8.14661,67.0691,5067,2.91,-0.16
+HD 76920,b,8.921327499813502,-67.2655333328247,Wittenmeyer 2017,http://adsabs.harvard.edu/abs/2017AJ....154..274W,Wittenmeyer 2017,http://adsabs.harvard.edu/abs/2017AJ....154..274W,1.17,7.47,184.8,4698,2.94,-0.11
+HD 222076,b,23.63558222214381,-70.90341944456101,Wittenmyer 2017,http://adsabs.harvard.edu/abs/2017AJ....153...51W,Wittenmyer 2017,http://adsabs.harvard.edu/abs/2017AJ....153...51W,1.07,4.1,83.5,4806,3.31,0.05
