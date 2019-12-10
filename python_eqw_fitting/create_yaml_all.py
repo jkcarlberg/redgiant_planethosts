@@ -1,6 +1,7 @@
 import yaml
+import numpy as np
 
-pars_dict = {'Default': (10,0.2,0.2,[-0.3], [0], 0.15, 0), '5838.37': (10, 0.15, 0.15, [-0.3], [0], 0.15, 0), '7189.16': (10, 0.23, 0.1, [-0.3], [0], 0.15, 0),
+pars_dict = {'Default': (10,0.3,0.3,[-0.3], [0], 0.15, 0), '5838.37': (10, 0.15, 0.15, [-0.3], [0], 0.15, 0), '7189.16': (10, 0.23, 0.1, [-0.3], [0], 0.15, 0),
                  '5712.13': (10, 0.5, 0.2, [-0.3, -0.3], [0, -0.2], 0.15, 0),
                  '5698.02': (10, 0.25, 0.7, [-0.3, -0.5], [0, 0.2], 0.15, 0),
                  '5284.1': (10, 1, 0.4, [-0.3, -0.7, -0.3], [0, -0.3, 0.2], 0.15, 0),
@@ -142,5 +143,14 @@ pars_dict = {'Default': (10,0.2,0.2,[-0.3], [0], 0.15, 0), '5838.37': (10, 0.15,
     '5293.16': (10, 0.15, 0.5, [-0.3,-0.2], [0,0.2], 0.15, 0),
     '6645.1': (10, 0.3, 0.5, [-0.3,-0.2], [0,0.2], 0.15, 0)}
 
-with open('line_pars_fe.yml', 'w') as outfile:
-    yaml.dump(pars_dict, outfile, default_flow_style=False)
+rounded_pars_dict = {}
+for line in pars_dict:
+    line_pars = pars_dict[line]
+    if line != "Default":
+        rounded_line = np.round(float(line),2)
+        rounded_pars_dict[str(rounded_line)] = line_pars
+    else:
+        rounded_pars_dict[str(line)] = line_pars
+    
+with open('line_pars.yml', 'w') as outfile:
+    yaml.dump(rounded_pars_dict, outfile, default_flow_style=False)
