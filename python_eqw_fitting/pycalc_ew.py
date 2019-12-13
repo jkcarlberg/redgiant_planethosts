@@ -36,12 +36,12 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     ep = line_df[line_df[0] == line][2].tolist()[0]
     log_gf = line_df[line_df[0] == line][3].tolist()[0]
     # debugging -----
-    print(f"Line: {line}")
+    print(f"Line: {str(np.round(float(line), 2))}")
     #print(list(pars_dict.keys())[np.where(abs(line_wavs - float(line)) < 0.2)[0][0]])
     #print(str(line) in pars_dict.keys())
     # ---------------
-    if float(line) in np.array(pars_dict.keys()):
-        key = str(line)
+    if str(np.round(float(line), 2)) in np.array(list(pars_dict.keys())):
+        key = str(np.round(float(line), 2))
         print(key)
 
         width = pars_dict[key][0]  # Distance from the line on both sides to sample the local continuum from
@@ -56,8 +56,8 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
         width = 10  # Distance from the line on both sides to sample the local continuum from
         gauss_amps = [-0.2]
         gauss_width = 0.15
-        gauss_centhresh_l = 0.3
-        gauss_centhresh_r = 0.3
+        gauss_centhresh_l = 0.2
+        gauss_centhresh_r = 0.2
         gauss_cenoffs = [0.0]
         c_select = 0
 
@@ -182,7 +182,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         flagged_results = []
         for row, mask_bool in zip(masked_results, broad_mask):
             if mask_bool:
-                flagged_results.append(list(row[:-1]) + [3])
+                flagged_results.append(list(row[:-1]) + [1]) # omit broadening outliers
             else:
                 flagged_results.append(row)
 
@@ -218,7 +218,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             log_file.write("==========\n")
             for row in results:
                 if row[-1] == 1:
-                    log_file.write("Omitted: {} (Bad EQW, EQW = {})\n".format(row[0], row[4]))
+                    log_file.write("Omitted: {} (Bad EQW or Broadening Outlier, EQW = {})\n".format(row[0], row[4]))
             for row in flagged_results:
                 if row[-1] == 3:
                     log_file.write("Warning: {} (High EQW or Broadening Outlier), EQW = {}\n".format(row[0], row[4]))
