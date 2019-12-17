@@ -83,7 +83,8 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     except ValueError:
         print(f"Bad c_normalize for {line}")
         dq_flag = 1
-        return [line, ion, ep, log_gf, -0, -0, dq_flag]
+        log_message = 'Bad c_normalize fit'
+        return [line, ion, ep, log_gf, 0, 0, dq_flag, log_message]
 
     # Load the normalized spectrum into a pyspeckit.Spectrum object
     sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
@@ -101,7 +102,10 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     with suppress_stdout():  # Suppress some annoying info messages
         sp.specfit(fittype='gaussian', guesses=guesses,
                    exclude=[0, line - gauss_centhresh_l, line + gauss_centhresh_r, line + 5000])
-    fwhm = sp.specfit.parinfo[2].value
+    fwhm = sp.specfit.parinfo["WIDTH0"].value
+
+
+
 
     # Measure the Equivalent Width of the gaussian line fit against the normalized baseline
     eqw = sp.specfit.EQW(plot=False, continuum_as_baseline=True, xmin=0, xmax=len(norm),
@@ -113,15 +117,26 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
 
 
     dq_flag = 0  # Flag for measurement quality, 0=Good, 1=Omit (log), 2=Omit (Don't log), 3=Warn
-
+    log_message = ''
     # Omit Measurements that return ridiculous EQWs
     if (eqw <= 3) or (eqw > 500):
         dq_flag = 1
+        log_message+=" EQW outside of expected range (<=3 or >500)"
     # Flag measurements that return EQWs that are higher than we'd typically expect
     elif eqw > 300:
         dq_flag = 3
+        log_message+=" EQW > 300 "
 
-    return [line, ion, ep, log_gf, eqw, broadening, dq_flag]
+    # get the fwhm values for secondary fits
+    if len(gauss_amps) > 1:
+        for idx in range(len(gauss_amps)):  # sample the number of fits
+            if idx == 0:
+                continue
+            if sp.specfit.parinfo[f"WIDTH{idx}"].value > 0.2:  # width cutoff of 20.0 mA, we expect ~15.0 mA
+                dq_flag = 1
+                log_message+=" , A secondary fit exceeded the fwhm limit, the fit is likely poor as a result"
+
+    return [line, ion, ep, log_gf, eqw, broadening, dq_flag, log_message]
 
 
 def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
@@ -172,19 +187,21 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         dq_flags = np.array(dq_flags[dq_flags != 2])
 
         # Omit Lines if they have the omit flag set (logged)
-        masked_results = results[dq_flags != 1]
+        masked_results = results[dq_flags != 1][0][0]
 
         # Check broadening for all lines -- update DQ flags if outliers are present
-        broadening = np.array([row[5] for row in masked_results])
-        sigma = 3
+
+        broadening = np.array([float(row[5]) for row in masked_results])
+        #import pdb; pdb.set_trace()
+        sigma = 1
         broad_mask = abs(broadening - np.mean(broadening)) > sigma * np.std(broadening)
 
         flagged_results = []
         for row, mask_bool in zip(masked_results, broad_mask):
             if mask_bool:
-                flagged_results.append(list(row[:-1]) + [1]) # omit broadening outliers
-            else:
-                flagged_results.append(row)
+                row[6] = 1  # omit broadening outliers
+                row[7]+=" , primary fwhm is a broadening outlier compared to rest of star "
+            flagged_results.append(row)
 
         # Grab values for EQW and MOOG files
         line_eqws = [[row[0], row[4], row[5]] for row in flagged_results]
@@ -202,7 +219,9 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             f.write(f_name + " " + "(generated using the pycalc_ew.py script)" + "\n")
             for row in moog_vals:
                 wav, ion, ep, log_gf, eqw = row
-                formatted_string = "{:.2f} {:.1f} {:.2f} {:.2f} {:.2f}".format(wav, ion, ep, log_gf, eqw)
+                formatted_string = "{:.2f} {:.1f} {:.2f} {:.2f} {:.2f}".format(float(wav), float(ion),
+                                                                               float(ep), float(log_gf), float(eqw))
+
                 wav, ion, ep, log_gf, ew = formatted_string.split(" ")
                 file_line = "  {}{}{}{}{}{}{}{}{}".format(wav, " " * (10 - len(wav)),
                                                           ion, " " * (10 - len(ion)),
@@ -216,12 +235,12 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             log_file.write("==========\n")
             log_file.write(f_name+'\n')
             log_file.write("==========\n")
-            for row in results:
-                if row[-1] == 1:
-                    log_file.write("Omitted: {} (Bad EQW or Broadening Outlier, EQW = {})\n".format(row[0], row[4]))
+            for row in results[0]:
+                if int(row[6]) == 1:
+                    log_file.write("Omitted: {} EQW = {} Reason: {}\n".format(row[0], row[4], row[7]))
             for row in flagged_results:
-                if row[-1] == 3:
-                    log_file.write("Warning: {} (High EQW or Broadening Outlier), EQW = {}\n".format(row[0], row[4]))
+                if int(row[6]) == 3:
+                    log_file.write("Warning: {} EQW = {} Reason: {}\n".format(row[0], row[4], row[7]))
 
     if log:
         log_file.close()
