@@ -1,135 +1,146 @@
 Wavelength,Ion,EP,Log_gf,Source,Species
-5380.337,6.0,7.685,-1.57,melendez2014_table1_noFe.txt,C I
 7113.179,6.0,8.647,-0.76,melendez2014_table1_noFe.txt,C I
+5380.337,6.0,7.685,-1.57,melendez2014_table1_noFe.txt,C I
 5052.167,6.0,7.685,-1.24,melendez2014_table1_noFe.txt,C I
-6300.311,8.0,0.0,-9.77,jkc_thesis_metal_ll.txt,O I
-6156.76,8.0,10.741,-0.47700000000000004,jkc_thesis_metal_ll.txt,O I
 7771.944,8.0,9.146,0.37,melendez2014_table1_noFe.txt,O I
 7774.166,8.0,9.146,0.22,melendez2014_table1_noFe.txt,O I
 7775.388,8.0,9.146,0.0,melendez2014_table1_noFe.txt,O I
-6154.225,11.0,2.1023,-1.547,melendez2014_table1_noFe.txt,Na I
+6156.76,8.0,10.741,-0.47700000000000004,jkc_thesis_metal_ll.txt,O I
+6300.311,8.0,0.0,-9.77,jkc_thesis_metal_ll.txt,O I
 6160.747,11.0,2.1044,-1.246,melendez2014_table1_noFe.txt,Na I
+6154.225,11.0,2.1023,-1.547,melendez2014_table1_noFe.txt,Na I
 5711.088,12.0,4.345,-1.729,melendez2014_table1_noFe.txt,Mg I
-8773.896,13.0,4.0216,-0.22,melendez2014_table1_noFe.txt,Al I
 7836.134,13.0,4.021,-0.45,melendez2014_table1_noFe.txt,Al I
 8772.866,13.0,4.0215,-0.38,melendez2014_table1_noFe.txt,Al I
-6698.667,13.0,3.1430000000000002,-1.7819999999999998,melendez2014_table1_noFe.txt,Al I
+8773.896,13.0,4.0216,-0.22,melendez2014_table1_noFe.txt,Al I
 6696.018,13.0,3.1430000000000002,-1.4809999999999999,melendez2014_table1_noFe.txt,Al I
-6243.823,14.0,5.6160000000000005,-1.27,melendez2014_table1_noFe.txt,Si I
-6125.021,14.0,5.614,-1.5,melendez2014_table1_noFe.txt,Si I
-5690.425,14.0,4.928999999999999,-1.77,melendez2014_table1_noFe.txt,Si I
-5488.983,14.0,5.614,-1.69,melendez2014_table1_noFe.txt,Si I
-5684.484,14.0,4.953,-1.55,melendez2014_table1_noFe.txt,Si I
-5517.54,14.0,5.08,-2.496,melendez2014_table1_noFe.txt,Si I
+6698.667,13.0,3.1430000000000002,-1.7819999999999998,melendez2014_table1_noFe.txt,Al I
 5701.104,14.0,4.93,-1.95,melendez2014_table1_noFe.txt,Si I
-6145.015,14.0,5.6160000000000005,-1.41,melendez2014_table1_noFe.txt,Si I
-6244.476,14.0,5.6160000000000005,-1.32,melendez2014_table1_noFe.txt,Si I
-6721.848,14.0,5.862,-1.12,melendez2014_table1_noFe.txt,Si I
-6741.63,14.0,5.984,-1.65,melendez2014_table1_noFe.txt,Si I
-5793.073,14.0,4.928999999999999,-1.96,melendez2014_table1_noFe.txt,Si I
+5690.425,14.0,4.928999999999999,-1.77,melendez2014_table1_noFe.txt,Si I
+6125.021,14.0,5.614,-1.5,melendez2014_table1_noFe.txt,Si I
 5665.554,14.0,4.92,-1.94,melendez2014_table1_noFe.txt,Si I
 5645.611,14.0,4.928999999999999,-2.04,melendez2014_table1_noFe.txt,Si I
-6046.0,16.0,7.867999999999999,-0.15,melendez2014_table1_noFe.txt,S I
+6244.476,14.0,5.6160000000000005,-1.32,melendez2014_table1_noFe.txt,Si I
+5517.54,14.0,5.08,-2.496,melendez2014_table1_noFe.txt,Si I
+5684.484,14.0,4.953,-1.55,melendez2014_table1_noFe.txt,Si I
+6243.823,14.0,5.6160000000000005,-1.27,melendez2014_table1_noFe.txt,Si I
+5488.983,14.0,5.614,-1.69,melendez2014_table1_noFe.txt,Si I
+6721.848,14.0,5.862,-1.12,melendez2014_table1_noFe.txt,Si I
+6741.63,14.0,5.984,-1.65,melendez2014_table1_noFe.txt,Si I
+6145.015,14.0,5.6160000000000005,-1.41,melendez2014_table1_noFe.txt,Si I
+5793.073,14.0,4.928999999999999,-1.96,melendez2014_table1_noFe.txt,Si I
 6743.54,16.0,7.8660000000000005,-0.6,melendez2014_table1_noFe.txt,S I
+6046.0,16.0,7.867999999999999,-0.15,melendez2014_table1_noFe.txt,S I
 7698.974,19.0,0.0,-0.168,melendez2014_table1_noFe.txt,K I
-5867.562,20.0,2.9330000000000003,-1.57,melendez2014_table1_noFe.txt,Ca I
-5581.965,20.0,2.5229,-0.555,melendez2014_table1_noFe.txt,Ca I
-5512.98,20.0,2.9330000000000003,-0.46399999999999997,melendez2014_table1_noFe.txt,Ca I
-5590.114,20.0,2.521,-0.5710000000000001,melendez2014_table1_noFe.txt,Ca I
-6455.598,20.0,2.523,-1.34,melendez2014_table1_noFe.txt,Ca I
-6161.3,20.0,2.523,-1.03,jkc_thesis_metal_ll.txt,Ca I
-6439.08,20.0,2.526,0.19,jkc_thesis_metal_ll.txt,Ca I
-6471.662,20.0,2.525,-0.6859999999999999,melendez2014_table1_noFe.txt,Ca I
-6493.78,20.0,2.521,-0.11,jkc_thesis_metal_ll.txt,Ca I
-6499.65,20.0,2.523,-0.818,melendez2014_table1_noFe.txt,Ca I
-6508.84,20.0,2.526,-2.11,jkc_thesis_metal_ll.txt,Ca I
-5260.387,20.0,2.521,-1.719,melendez2014_table1_noFe.txt,Ca I
-6166.439,20.0,2.521,-1.1420000000000001,melendez2014_table1_noFe.txt,Ca I
 6169.042,20.0,2.523,-0.797,melendez2014_table1_noFe.txt,Ca I
+5867.562,20.0,2.9330000000000003,-1.57,melendez2014_table1_noFe.txt,Ca I
+5512.98,20.0,2.9330000000000003,-0.46399999999999997,melendez2014_table1_noFe.txt,Ca I
+6161.3,20.0,2.523,-1.03,jkc_thesis_metal_ll.txt,Ca I
+5590.114,20.0,2.521,-0.5710000000000001,melendez2014_table1_noFe.txt,Ca I
+5581.965,20.0,2.5229,-0.555,melendez2014_table1_noFe.txt,Ca I
+6166.439,20.0,2.521,-1.1420000000000001,melendez2014_table1_noFe.txt,Ca I
+6471.662,20.0,2.525,-0.6859999999999999,melendez2014_table1_noFe.txt,Ca I
+6455.598,20.0,2.523,-1.34,melendez2014_table1_noFe.txt,Ca I
+5260.387,20.0,2.521,-1.719,melendez2014_table1_noFe.txt,Ca I
+6493.78,20.0,2.521,-0.11,jkc_thesis_metal_ll.txt,Ca I
+6439.08,20.0,2.526,0.19,jkc_thesis_metal_ll.txt,Ca I
+6508.84,20.0,2.526,-2.11,jkc_thesis_metal_ll.txt,Ca I
+6499.65,20.0,2.523,-0.818,melendez2014_table1_noFe.txt,Ca I
+5520.497,21.0,1.8649,0.55,melendez2014_table1_noFe.txt,Sc I
 5081.57,21.0,1.4478,0.3,melendez2014_table1_noFe.txt,Sc I
 5671.821,21.0,1.4478,0.55,melendez2014_table1_noFe.txt,Sc I
-5520.497,21.0,1.8649,0.55,melendez2014_table1_noFe.txt,Sc I
-5526.82,21.1,1.77,0.14,melendez2014_table1_noFe.txt,Sc II
-6604.578,21.1,1.3569,-1.15,melendez2014_table1_noFe.txt,Sc II
 6245.63,21.1,1.507,-1.03,melendez2014_table1_noFe.txt,Sc II
 5657.87,21.1,1.507,-0.3,melendez2014_table1_noFe.txt,Sc II
-6279.76,21.1,1.5,-1.2,melendez2014_table1_noFe.txt,Sc II
 6320.843,21.1,1.5,-1.85,melendez2014_table1_noFe.txt,Sc II
+6279.76,21.1,1.5,-1.2,melendez2014_table1_noFe.txt,Sc II
+5526.82,21.1,1.77,0.14,melendez2014_table1_noFe.txt,Sc II
+6604.578,21.1,1.3569,-1.15,melendez2014_table1_noFe.txt,Sc II
 5684.19,21.1,1.507,-0.95,melendez2014_table1_noFe.txt,Sc II
-5739.464,22.0,2.249,-0.6,melendez2014_table1_noFe.txt,Ti I
 5866.452,22.0,1.0659999999999998,-0.84,melendez2014_table1_noFe.txt,Ti I
-5113.448,22.0,1.443,-0.7829999999999999,melendez2014_table1_noFe.txt,Ti I
-5490.15,22.0,1.46,-0.9329999999999999,melendez2014_table1_noFe.txt,Ti I
-5147.479,22.0,0.0,-2.012,melendez2014_table1_noFe.txt,Ti I
-4913.616,22.0,1.8731,0.161,melendez2014_table1_noFe.txt,Ti I
-6554.22,22.0,1.443,-1.22,jkc_thesis_metal_ll.txt,Ti I
-5295.774,22.0,1.0665,-1.633,melendez2014_table1_noFe.txt,Ti I
-6556.06,22.0,1.46,-1.074,jkc_thesis_metal_ll.txt,Ti I
-6599.11,22.0,0.9,-2.085,jkc_thesis_metal_ll.txt,Ti I
-6126.217,22.0,1.0659999999999998,-1.4240000000000002,melendez2014_table1_noFe.txt,Ti I
 5219.7,22.0,0.021,-2.292,melendez2014_table1_noFe.txt,Ti I
-6258.104,22.0,1.443,-0.355,melendez2014_table1_noFe.txt,Ti I
+5113.448,22.0,1.443,-0.7829999999999999,melendez2014_table1_noFe.txt,Ti I
+4913.616,22.0,1.8731,0.161,melendez2014_table1_noFe.txt,Ti I
 6091.174,22.0,2.2673,-0.423,melendez2014_table1_noFe.txt,Ti I
-5418.767,22.1,1.5819999999999999,-2.11,melendez2014_table1_noFe.txt,Ti II
-5381.015,22.1,1.565,-1.97,melendez2014_table1_noFe.txt,Ti II
-5336.778,22.1,1.5819999999999999,-1.63,melendez2014_table1_noFe.txt,Ti II
+5147.479,22.0,0.0,-2.012,melendez2014_table1_noFe.txt,Ti I
+5295.774,22.0,1.0665,-1.633,melendez2014_table1_noFe.txt,Ti I
+5490.15,22.0,1.46,-0.9329999999999999,melendez2014_table1_noFe.txt,Ti I
+5739.464,22.0,2.249,-0.6,melendez2014_table1_noFe.txt,Ti I
+6556.06,22.0,1.46,-1.074,jkc_thesis_metal_ll.txt,Ti I
+6554.22,22.0,1.443,-1.22,jkc_thesis_metal_ll.txt,Ti I
+6126.217,22.0,1.0659999999999998,-1.4240000000000002,melendez2014_table1_noFe.txt,Ti I
+6258.104,22.0,1.443,-0.355,melendez2014_table1_noFe.txt,Ti I
+6599.11,22.0,0.9,-2.085,jkc_thesis_metal_ll.txt,Ti I
 6606.97,22.1,2.061,-2.79,jkc_thesis_metal_ll.txt,Ti II
+5336.778,22.1,1.5819999999999999,-1.63,melendez2014_table1_noFe.txt,Ti II
+5381.015,22.1,1.565,-1.97,melendez2014_table1_noFe.txt,Ti II
+5418.767,22.1,1.5819999999999999,-2.11,melendez2014_table1_noFe.txt,Ti II
 4911.193,22.1,3.123,-0.537,melendez2014_table1_noFe.txt,Ti II
+6199.2,23.0,0.28600000000000003,-1.28,melendez2014_table1_noFe.txt,V I
 6251.82,23.0,0.28600000000000003,-1.34,melendez2014_table1_noFe.txt,V I
 6357.292,23.0,1.849,-0.91,jkc_thesis_metal_ll.txt,V I
 6531.415,23.0,1.218,-0.84,jkc_thesis_metal_ll.txt,V I
-6199.2,23.0,0.28600000000000003,-1.28,melendez2014_table1_noFe.txt,V I
-6119.528,23.0,1.064,-0.32,melendez2014_table1_noFe.txt,V I
 4875.486,23.0,0.04,-0.81,melendez2014_table1_noFe.txt,V I
+5727.046,23.0,1.081,-0.011000000000000001,melendez2014_table1_noFe.txt,V I
+6119.528,23.0,1.064,-0.32,melendez2014_table1_noFe.txt,V I
 6090.21,23.0,1.08,-0.062,melendez2014_table1_noFe.txt,V I
 5670.85,23.0,1.08,-0.42,melendez2014_table1_noFe.txt,V I
-5727.046,23.0,1.081,-0.011000000000000001,melendez2014_table1_noFe.txt,V I
-5296.691,24.0,0.983,-1.36,melendez2014_table1_noFe.txt,Cr I
-5300.744,24.0,0.982,-2.13,melendez2014_table1_noFe.txt,Cr I
-6661.08,24.0,4.1926,-0.19,melendez2014_table1_noFe.txt,Cr I
-5238.964,24.0,2.7089999999999996,-1.27,melendez2014_table1_noFe.txt,Cr I
-5348.312,24.0,1.0036,-1.21,melendez2014_table1_noFe.txt,Cr I
-5214.14,24.0,3.3694,-0.74,melendez2014_table1_noFe.txt,Cr I
-5272.007,24.0,3.449,-0.42,melendez2014_table1_noFe.txt,Cr I
 4936.335,24.0,3.1128,-0.25,melendez2014_table1_noFe.txt,Cr I
+6661.08,24.0,4.1926,-0.19,melendez2014_table1_noFe.txt,Cr I
+5300.744,24.0,0.982,-2.13,melendez2014_table1_noFe.txt,Cr I
+5296.691,24.0,0.983,-1.36,melendez2014_table1_noFe.txt,Cr I
 5783.08,24.0,3.323,-0.43,melendez2014_table1_noFe.txt,Cr I
+5272.007,24.0,3.449,-0.42,melendez2014_table1_noFe.txt,Cr I
+5214.14,24.0,3.3694,-0.74,melendez2014_table1_noFe.txt,Cr I
+5238.964,24.0,2.7089999999999996,-1.27,melendez2014_table1_noFe.txt,Cr I
 5287.2,24.0,3.438,-0.87,melendez2014_table1_noFe.txt,Cr I
-5783.87,24.0,3.3223,-0.295,melendez2014_table1_noFe.txt,Cr I
-5305.87,24.1,3.827,-1.97,melendez2014_table1_noFe.txt,Cr II
+5348.312,24.0,1.0036,-1.21,melendez2014_table1_noFe.txt,Cr I
 5237.328,24.1,4.073,-1.087,melendez2014_table1_noFe.txt,Cr II
+5305.87,24.1,3.827,-1.97,melendez2014_table1_noFe.txt,Cr II
 5308.41,24.1,4.0712,-1.8459999999999999,melendez2014_table1_noFe.txt,Cr II
-6013.49,25.0,3.073,-0.251,melendez2014_table1_noFe.txt,Mn I
 5399.47,25.0,3.85,-0.10400000000000001,melendez2014_table1_noFe.txt,Mn I
 6016.64,25.0,3.073,-0.084,melendez2014_table1_noFe.txt,Mn I
 6021.79,25.0,3.076,0.034,melendez2014_table1_noFe.txt,Mn I
+6013.49,25.0,3.073,-0.251,melendez2014_table1_noFe.txt,Mn I
+5536.58,26.0,2.83,-3.81,Fe Line List,Fe I
+5539.28,26.0,3.64,-2.66,Fe Line List,Fe I
+5522.45,26.0,4.21,-1.56,Fe Line List,Fe I
+5322.04,26.0,2.28,-2.8,Fe Line List,Fe I
+5466.99,26.0,3.57,-2.23,Fe Line List,Fe I
+5307.36,26.0,1.61,-2.99,Fe Line List,Fe I
 5856.08,26.0,4.29,-1.64,Fe Line List,Fe I
-5661.36,26.0,4.28,-1.74,Fe Line List,Fe I
-5712.13,26.0,3.42,-2.06,Fe Line List,Fe I
 5861.11,26.0,4.28,-2.45,Fe Line List,Fe I
-5638.26,26.0,4.22,-0.87,Fe Line List,Fe I
 5916.25,26.0,2.45,-2.83,Fe Line List,Fe I
-5636.7,26.0,3.64,-2.61,Fe Line List,Fe I
-5635.82,26.0,4.26,-1.89,Fe Line List,Fe I
 6024.06,26.0,4.55,-0.12,Fe Line List,Fe I
-5855.08,26.0,4.61,-1.48,Fe Line List,Fe I
-5853.15,26.0,1.49,-5.28,Fe Line List,Fe I
-5837.7,26.0,4.29,-2.34,Fe Line List,Fe I
+6027.05,26.0,4.08,-1.09,Fe Line List,Fe I
+5491.83,26.0,4.19,-2.19,Fe Line List,Fe I
+5577.03,26.0,5.03,-1.55,Fe Line List,Fe I
+5633.95,26.0,4.99,-0.27,Fe Line List,Fe I
+5611.35,26.0,3.64,-2.99,Fe Line List,Fe I
+5849.68,26.0,3.7,-2.99,Fe Line List,Fe I
 5838.37,26.0,3.94,-2.34,Fe Line List,Fe I
+5837.7,26.0,4.29,-2.34,Fe Line List,Fe I
 5814.81,26.0,4.28,-1.97,Fe Line List,Fe I
-5691.5,26.0,4.3,-1.52,Fe Line List,Fe I
-5698.02,26.0,3.64,-2.68,Fe Line List,Fe I
 5811.92,26.0,4.14,-2.43,Fe Line List,Fe I
+5809.22,26.0,3.88,-1.69,Fe Line List,Fe I
 5807.78,26.0,3.29,-3.41,Fe Line List,Fe I
 5793.91,26.0,4.22,-1.83,Fe Line List,Fe I
 5784.66,26.0,3.4,-2.67,Fe Line List,Fe I
 5778.45,26.0,2.59,-3.43,Fe Line List,Fe I
 5760.35,26.0,3.64,-2.49,Fe Line List,Fe I
-5705.48,26.0,4.3,-1.6,Fe Line List,Fe I
 5753.12,26.0,4.26,-0.76,Fe Line List,Fe I
-5849.68,26.0,3.7,-2.99,Fe Line List,Fe I
-5809.22,26.0,3.88,-1.69,Fe Line List,Fe I
-6127.9,26.0,4.14,-1.4,Fe Line List,Fe I
+5712.13,26.0,3.42,-2.06,Fe Line List,Fe I
+5705.48,26.0,4.3,-1.6,Fe Line List,Fe I
+5698.02,26.0,3.64,-2.68,Fe Line List,Fe I
+5691.5,26.0,4.3,-1.52,Fe Line List,Fe I
+5661.36,26.0,4.28,-1.74,Fe Line List,Fe I
+5638.26,26.0,4.22,-0.87,Fe Line List,Fe I
+5636.7,26.0,3.64,-2.61,Fe Line List,Fe I
+5635.82,26.0,4.26,-1.89,Fe Line List,Fe I
+5618.63,26.0,4.21,-1.28,Fe Line List,Fe I
+5607.66,26.0,4.15,-2.27,Fe Line List,Fe I
 6056.01,26.0,4.73,-0.46,Fe Line List,Fe I
+5560.21,26.0,4.44,-1.19,Fe Line List,Fe I
+6120.25,26.0,0.92,-5.95,Fe Line List,Fe I
 7941.09,26.0,3.27,-2.58,Fe Line List,Fe I
 7723.21,26.0,2.28,-3.62,Fe Line List,Fe I
 7583.79,26.0,3.02,-1.99,Fe Line List,Fe I
@@ -139,100 +150,85 @@ Wavelength,Ion,EP,Log_gf,Source,Species
 6971.94,26.0,3.02,-3.49,Fe Line List,Fe I
 6858.15,26.0,4.61,-1.05,Fe Line List,Fe I
 6855.16,26.0,4.56,-0.74,Fe Line List,Fe I
-6820.37,26.0,4.64,-1.17,Fe Line List,Fe I
+6079.01,26.0,4.65,-1.12,Fe Line List,Fe I
 6750.15,26.0,2.42,-2.62,Fe Line List,Fe I
 6733.15,26.0,4.64,-1.35,Fe Line List,Fe I
 6699.15,26.0,4.59,-2.19,Fe Line List,Fe I
 6609.11,26.0,2.56,-2.69,Fe Line List,Fe I
 6597.56,26.0,4.8,-0.92,Fe Line List,Fe I
-6593.87,26.0,2.44,-2.42,Fe Line List,Fe I
+6820.37,26.0,4.64,-1.17,Fe Line List,Fe I
 6518.37,26.0,2.83,-2.75,Fe Line List,Fe I
-6079.01,26.0,4.65,-1.12,Fe Line List,Fe I
-6120.25,26.0,0.92,-5.95,Fe Line List,Fe I
-5633.95,26.0,4.99,-0.27,Fe Line List,Fe I
-6151.62,26.0,2.18,-3.3,Fe Line List,Fe I
+6127.9,26.0,4.14,-1.4,Fe Line List,Fe I
+6593.87,26.0,2.44,-2.42,Fe Line List,Fe I
 6165.36,26.0,4.14,-1.55,Fe Line List,Fe I
 6173.33,26.0,2.22,-2.86,Fe Line List,Fe I
-6027.05,26.0,4.08,-1.09,Fe Line List,Fe I
+5853.15,26.0,1.49,-5.28,Fe Line List,Fe I
 6180.2,26.0,2.73,-2.59,Fe Line List,Fe I
+6151.62,26.0,2.18,-3.3,Fe Line List,Fe I
 6232.64,26.0,3.65,-1.22,Fe Line List,Fe I
-6271.28,26.0,3.33,-2.95,Fe Line List,Fe I
-6311.5,26.0,2.83,-3.23,Fe Line List,Fe I
-6322.69,26.0,2.59,-2.43,Fe Line List,Fe I
-6393.6,26.0,2.43,-1.62,Fe Line List,Fe I
-6481.87,26.0,2.28,-3.11,Fe Line List,Fe I
 6200.31,26.0,2.61,-2.44,Fe Line List,Fe I
-5618.63,26.0,4.21,-1.28,Fe Line List,Fe I
-5539.28,26.0,3.64,-2.66,Fe Line List,Fe I
-5607.66,26.0,4.15,-2.27,Fe Line List,Fe I
-5577.03,26.0,5.03,-1.55,Fe Line List,Fe I
-5560.21,26.0,4.44,-1.19,Fe Line List,Fe I
-5536.58,26.0,2.83,-3.81,Fe Line List,Fe I
-5522.45,26.0,4.21,-1.56,Fe Line List,Fe I
-5491.83,26.0,4.19,-2.19,Fe Line List,Fe I
-5466.99,26.0,3.57,-2.23,Fe Line List,Fe I
-5322.04,26.0,2.28,-2.8,Fe Line List,Fe I
-5307.36,26.0,1.61,-2.99,Fe Line List,Fe I
-5611.35,26.0,3.64,-2.99,Fe Line List,Fe I
+6481.87,26.0,2.28,-3.11,Fe Line List,Fe I
+6393.6,26.0,2.43,-1.62,Fe Line List,Fe I
+5855.08,26.0,4.61,-1.48,Fe Line List,Fe I
+6311.5,26.0,2.83,-3.23,Fe Line List,Fe I
+6271.28,26.0,3.33,-2.95,Fe Line List,Fe I
+6322.69,26.0,2.59,-2.43,Fe Line List,Fe I
 5234.63,26.1,3.22,-2.23,Fe Line List,Fe II
 5284.1,26.1,2.89,-3.2,Fe Line List,Fe II
-5325.56,26.1,3.22,-3.32,Fe Line List,Fe II
 5414.05,26.1,3.22,-3.65,Fe Line List,Fe II
-6247.58,26.1,3.89,-2.31,Fe Line List,Fe II
+5425.25,26.1,3.2,-3.39,Fe Line List,Fe II
 5991.37,26.1,3.15,-3.56,Fe Line List,Fe II
 6084.1,26.1,3.2,-3.88,Fe Line List,Fe II
 6149.25,26.1,3.89,-2.84,Fe Line List,Fe II
+6247.58,26.1,3.89,-2.31,Fe Line List,Fe II
 6416.92,26.1,3.89,-2.68,Fe Line List,Fe II
-5425.25,26.1,3.2,-3.39,Fe Line List,Fe II
-6432.68,26.1,2.89,-3.69,Fe Line List,Fe II
+5325.56,26.1,3.22,-3.32,Fe Line List,Fe II
 6456.38,26.1,3.9,-2.19,Fe Line List,Fe II
-5647.23,27.0,2.28,-1.56,melendez2014_table1_noFe.txt,Co I
-6814.942,27.0,1.956,-1.526,jkc_thesis_metal_ll.txt,Co I
+6432.68,26.1,2.89,-3.69,Fe Line List,Fe II
+5301.039,27.0,1.71,-1.99,melendez2014_table1_noFe.txt,Co I
+5530.774,27.0,1.71,-2.23,melendez2014_table1_noFe.txt,Co I
 5483.352,27.0,1.7104,-1.49,melendez2014_table1_noFe.txt,Co I
 6454.995,27.0,3.632,-0.25,melendez2014_table1_noFe.txt,Co I
-5530.774,27.0,1.71,-2.23,melendez2014_table1_noFe.txt,Co I
-5212.691,27.0,3.5144,-0.11,melendez2014_table1_noFe.txt,Co I
-5301.039,27.0,1.71,-1.99,melendez2014_table1_noFe.txt,Co I
+5342.695,27.0,4.021,0.54,melendez2014_table1_noFe.txt,Co I
 6189.0,27.0,1.71,-2.46,melendez2014_table1_noFe.txt,Co I
 5247.911,27.0,1.785,-2.08,melendez2014_table1_noFe.txt,Co I
-5342.695,27.0,4.021,0.54,melendez2014_table1_noFe.txt,Co I
-5643.078,28.0,4.164,-1.25,melendez2014_table1_noFe.txt,Ni I
-6327.6,28.0,1.676,-3.113,jkc_thesis_metal_ll.txt,Ni I
-5589.358,28.0,3.898,-1.14,melendez2014_table1_noFe.txt,Ni I
-6223.984,28.0,4.105,-0.98,melendez2014_table1_noFe.txt,Ni I
-6204.604,28.0,4.088,-1.14,melendez2014_table1_noFe.txt,Ni I
-6177.242,28.0,1.8259999999999998,-3.51,melendez2014_table1_noFe.txt,Ni I
+5647.23,27.0,2.28,-1.56,melendez2014_table1_noFe.txt,Co I
+6814.942,27.0,1.956,-1.526,jkc_thesis_metal_ll.txt,Co I
+5212.691,27.0,3.5144,-0.11,melendez2014_table1_noFe.txt,Co I
 6767.772,28.0,1.8259999999999998,-2.17,melendez2014_table1_noFe.txt,Ni I
-6086.282,28.0,4.266,-0.51,melendez2014_table1_noFe.txt,Ni I
+5589.358,28.0,3.898,-1.14,melendez2014_table1_noFe.txt,Ni I
+7797.586,28.0,3.89,-0.34,melendez2014_table1_noFe.txt,Ni I
+6130.135,28.0,4.266,-0.96,melendez2014_table1_noFe.txt,Ni I
+6327.6,28.0,1.676,-3.113,jkc_thesis_metal_ll.txt,Ni I
 6378.25,28.0,4.1535,-0.9,melendez2014_table1_noFe.txt,Ni I
-6176.811,28.0,4.088,-0.26,melendez2014_table1_noFe.txt,Ni I
+6223.984,28.0,4.105,-0.98,melendez2014_table1_noFe.txt,Ni I
+5010.938,28.0,3.635,-0.87,melendez2014_table1_noFe.txt,Ni I
 6772.315,28.0,3.657,-0.99,melendez2014_table1_noFe.txt,Ni I
 5176.56,28.0,3.8982,-0.44,melendez2014_table1_noFe.txt,Ni I
-7797.586,28.0,3.89,-0.34,melendez2014_table1_noFe.txt,Ni I
-6586.33,28.0,1.9509999999999998,-2.81,jkc_thesis_metal_ll.txt,Ni I
-6643.63,28.0,1.676,-2.1,melendez2014_table1_noFe.txt,Ni I
-5010.938,28.0,3.635,-0.87,melendez2014_table1_noFe.txt,Ni I
-6108.116,28.0,1.676,-2.44,melendez2014_table1_noFe.txt,Ni I
-6130.135,28.0,4.266,-0.96,melendez2014_table1_noFe.txt,Ni I
 5805.217,28.0,4.1672,-0.64,melendez2014_table1_noFe.txt,Ni I
+5643.078,28.0,4.164,-1.25,melendez2014_table1_noFe.txt,Ni I
+6586.33,28.0,1.9509999999999998,-2.81,jkc_thesis_metal_ll.txt,Ni I
+6177.242,28.0,1.8259999999999998,-3.51,melendez2014_table1_noFe.txt,Ni I
+6643.63,28.0,1.676,-2.1,melendez2014_table1_noFe.txt,Ni I
+6176.811,28.0,4.088,-0.26,melendez2014_table1_noFe.txt,Ni I
+6086.282,28.0,4.266,-0.51,melendez2014_table1_noFe.txt,Ni I
+6108.116,28.0,1.676,-2.44,melendez2014_table1_noFe.txt,Ni I
+6204.604,28.0,4.088,-1.14,melendez2014_table1_noFe.txt,Ni I
 5218.197,29.0,3.8160000000000003,0.47600000000000003,melendez2014_table1_noFe.txt,Cu I
-7933.13,29.0,3.79,-0.368,melendez2014_table1_noFe.txt,Cu I
 5220.066,29.0,3.8160000000000003,-0.44799999999999995,melendez2014_table1_noFe.txt,Cu I
 6362.35,30.0,5.79,0.14,melendez2014_table1_noFe.txt,Zn I
 6435.004,39.0,0.066,-0.82,jkc_thesis_metal_ll.txt,Y I
-5087.42,39.1,1.0841,-0.17,melendez2014_table1_noFe.txt,Y II
 5200.413,39.1,0.9923,-0.57,melendez2014_table1_noFe.txt,Y II
 6143.18,40.0,0.071,-1.1,jkc_thesis_metal_ll.txt,Zr I
 6134.57,40.0,0.0,-1.28,jkc_thesis_metal_ll.txt,Zr I
 6127.46,40.0,0.154,-1.06,jkc_thesis_metal_ll.txt,Zr I
-5853.67,56.1,0.604,-0.91,melendez2014_table1_noFe.txt,Ba II
 6496.9,56.1,0.604,-0.38,melendez2014_table1_noFe.txt,Ba II
+5853.67,56.1,0.604,-0.91,melendez2014_table1_noFe.txt,Ba II
 6141.71,56.1,0.7040000000000001,-0.08,melendez2014_table1_noFe.txt,Ba II
-6390.477,57.1,0.321,-1.41,jkc_thesis_metal_ll.txt,La II
 5303.53,57.1,0.3213,-1.35,melendez2014_table1_noFe.txt,La II
 6774.268,57.1,0.126,-1.79,jkc_thesis_metal_ll.txt,La II
+6390.477,57.1,0.321,-1.41,jkc_thesis_metal_ll.txt,La II
 5274.229,58.1,1.044,0.13,melendez2014_table1_noFe.txt,Ce II
-5293.16,60.1,0.8220000000000001,0.1,melendez2014_table1_noFe.txt,Nd II
-5234.19,60.1,0.55,-0.51,melendez2014_table1_noFe.txt,Nd II
 5319.81,60.1,0.55,-0.14,melendez2014_table1_noFe.txt,Nd II
+5293.16,60.1,0.8220000000000001,0.1,melendez2014_table1_noFe.txt,Nd II
 6645.1,63.1,1.379,0.12,melendez2014_table1_noFe.txt,Eu II
