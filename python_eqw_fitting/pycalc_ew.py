@@ -82,9 +82,8 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
         yfit, norm, _ = c_normalize(s_localflux, s_localwav, median_replace=False, cheby=True, low_cut=0.97)
     except ValueError:
         print(f"Bad c_normalize for {line}")
-        dq_flag = 1
         log_message = 'Bad c_normalize fit'
-        return [line, ion, ep, log_gf, 0, 0, dq_flag, log_message]
+        return [line, ion, ep, log_gf, 0, 0, 1, log_message]
 
     # Load the normalized spectrum into a pyspeckit.Spectrum object
     sp = pyspeckit.Spectrum(data=norm, xarr=s_localwav * u.AA)
@@ -119,7 +118,7 @@ def ew_line_calc(line, file, s_flux, s_wav, pars_dict, line_df):
     dq_flag = 0  # Flag for measurement quality, 0=Good, 1=Omit (log), 2=Omit (Don't log), 3=Warn
     log_message = ''
     # Omit Measurements that return ridiculous EQWs
-    if (eqw <= 3) or (eqw > 500):
+    if (eqw <= 3.0) or (eqw > 500.0):
         dq_flag = 1
         log_message+=" EQW outside of expected range (<=3 or >500)"
     # Flag measurements that return EQWs that are higher than we'd typically expect
@@ -179,7 +178,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         values = [delayed(ew_line_calc)(line[0], file, s_flux, s_wav, pars_dict, line_df) for line in inputs]
         results = np.array(compute(*values, scheduler='processes'))
 
-        dq_flags = np.array([row[6] for row in results])
+        dq_flags = np.array([row[6] for row in results],dtype='int32')
 
 
         # Omit Lines if they have the omit flag set (not logged)
@@ -187,8 +186,8 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
         dq_flags = np.array(dq_flags[dq_flags != 2])
 
         # Omit Lines if they have the omit flag set (logged)
-        masked_results = results[dq_flags != 1][0][0]
-
+        masked_results = results[dq_flags != 1]
+        #import pdb;pdb.set_trace()
         # Check broadening for all lines -- update DQ flags if outliers are present
 
         broadening = np.array([float(row[5]) for row in masked_results])
@@ -235,7 +234,7 @@ def calc_ew(file_list, line_list, eqw_out_dir, moog_out_dir, log = True):
             log_file.write("==========\n")
             log_file.write(f_name+'\n')
             log_file.write("==========\n")
-            for row in results[0]:
+            for row in results:
                 if int(row[6]) == 1:
                     log_file.write("Omitted: {} EQW = {} Reason: {}\n".format(row[0], row[4], row[7]))
             for row in flagged_results:
