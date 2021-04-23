@@ -9,7 +9,7 @@ Python EQW Fitting:
     * Notebook also has notes on which lines were checked, what custom line profiles were set per line, and which lines were thrown out
 * auto_eqw.ipynb:
     * The notebook that lays out the EQW fitting workflow that is used in this project, going through pyspeckit and support scripts like c_normalize
-    * Several examples of specific lines 
+    * Example of a specific line
 * auto_eqw_all.ipynb:
     * A notebook that fits equivalent widths to a line list for a set of spectrum
     * More of a test notebook for the script implementation in pycalc_ew.py
