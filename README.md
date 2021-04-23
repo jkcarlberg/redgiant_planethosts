@@ -21,6 +21,7 @@ Python EQW Fitting:
     * the script exports the dictionary to a yaml file for use with the fitting code
 * pycalc_ew.py:
     * The main script that generates EQWs for the desired lines in a set of spectrum.
+
 TESS Crossref:
 * TESS_crossref.ipynb:
     * main notebook for using mast and lightkurve to read in and analyze TESS light curves
